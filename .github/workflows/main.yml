@@ -50,10 +50,9 @@ jobs:
           
       - name: Coverage
         run: |
-          cd v1
-          coverage run --omit=/usr/local/lib/python3.8/* coverage_runner.py
-          coverage report --omit=/usr/local/lib/python3.8/* | tee coverage.txt
-          coverage xml -o reports/coverage/coverage.xml --omit=/usr/local/lib/python3.8/*
+          coverage run --omit=/usr/local/lib/* coverage_runner.py
+          coverage report --omit=/usr/local/lib/* | tee coverage.txt
+          coverage xml -o reports/coverage/coverage.xml --omit=/usr/local/lib/*
           genbadge coverage -v --output-file ./coverage-badge-v1.svg
 #          pwd 
 #          ls
