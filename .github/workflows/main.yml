@@ -1,6 +1,6 @@
-name: GitHub Demo
+name: Continuous Integration
 
-run-name: ${{ github.actor }} is testing out GitHub Actions
+run-name: pyKZK is testing out GitHub Actions
 
 on: [push]
 
@@ -8,6 +8,12 @@ jobs:
   doc:
     runs-on: ubuntu-latest
     if: contains( github.ref, 'main')
+    
+    # Map a step output to a job output
+    outputs:
+      coverage: ${{ steps.coverage.outputs.coverage }}
+      coverage-rounded-display: ${{ steps.coverage.outputs.coverage-rounded-display }}
+      
     strategy:
       matrix:
         python-version: ["3.7", "3.8", "3.9", "3.10"]
@@ -41,5 +47,25 @@ jobs:
         run: |
           pytest  -v --junitxml=reports/junit/junit.xml test_runner_planar.py
           genbadge tests -v --output-file ./tests-badge.svg
+          
+      - name: Coverage
+        run: |
+          cd v1
+          coverage run --omit=/usr/local/lib/python3.8/* coverage_runner.py
+          coverage report --omit=/usr/local/lib/python3.8/* | tee coverage.txt
+          coverage xml -o reports/coverage/coverage.xml --omit=/usr/local/lib/python3.8/*
+          genbadge coverage -v --output-file ./coverage-badge-v1.svg
+#          pwd 
+#          ls
+#          cd ..
+#          cp v1/coverage-badge-v1.svg .
+#    coverage: '/^TOTAL.*\s+(\d+\%)$/'
+    
+      - name: Code Coverage Summary Report (Text & Value)
+        uses: irongut/CodeCoverageSummary@v1.0.5
+        with:
+          filename: reports/coverage/coverage.xml
+          output: both
+
 
 
