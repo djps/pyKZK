@@ -1,0 +1,3 @@
+[submodule "HITU_Simulator"]
+	path = HITU_Simulator
+	url = https://github.com/jsoneson/HITU_Simulator
