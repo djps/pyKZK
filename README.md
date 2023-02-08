@@ -6,3 +6,4 @@ Python implementation of the FDA axisymmetric KZK HITU simulator, which can be a
 
 - [ ] testing
 - [ ] actions with coverage, flake8, version
+- [ ] requirements.txt
