@@ -18,3 +18,5 @@ sphinx
 mkdocs
 mkdocstrings
 numba
+jax
+jaxlib
