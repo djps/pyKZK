@@ -1,0 +1,45 @@
+name: GitHub Demo
+
+run-name: ${{ github.actor }} is testing out GitHub Actions
+
+on: [push]
+
+jobs:
+  doc:
+    runs-on: ubuntu-latest
+    if: contains( github.ref, 'main')
+    strategy:
+      matrix:
+        python-version: ["3.7", "3.8", "3.9", "3.10"]
+
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+          
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install flake8 pytest
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+      
+      - name: Lint with flake8
+        run: |
+          mkdir reports
+          cd reports
+          mkdir flake8  
+          cd ../
+          pip3 show flake8
+          pip3 show genbadge
+          flake8 --quiet --exit-zero --exclude=v1 --statistics --tee --max-line-length=127 --output-file=./reports/flake8/flake8stats.txt .
+          genbadge flake8 -i ./reports/flake8/flake8stats.txt -v --output-file ./flake8-badge.svg
+          
+      - name: Test with pytest
+        run: |
+          pytest  -v --junitxml=reports/junit/junit.xml test_runner_planar.py
+          genbadge tests -v --output-file ./tests-badge.svg
+
+
