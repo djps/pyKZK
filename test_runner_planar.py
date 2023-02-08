@@ -31,7 +31,8 @@ def test_runner():
 
     willplot  = False
 
-    Grid, Layer, Q = WAKZK_planar.WAKZK_planar(willplot)
+    Grid, Layer, Q = WAKZK_planar.WAKZK_planar()
 
     tol = 1E-4
+    
     assert Grid.KK == 16 
