@@ -1,8 +1,28 @@
 # pyKZK
 
+[![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/)
+[![License](https://img.shields.io/badge/license-MIT-blue)](./LICENSE.md)
+![Status](https://github.com/djps/pykzk/actions/workflows/main.yml/badge.svg)
+<!-- ![flake8-info](dist/flake8-badge.svg) -->
+
+
+<!-- hopefully works in the near future
+![GitHub](https://img.shields.io/github/license/djps/lyapunov?style=plastic)
+
+![GitHub](https://img.shields.io/github/license/djps/MatrixCompletion?style=plastic&label=LICENSE)
+
+![GitHub](https://img.shields.io/github/license/djps/jaxdiff?style=plastic)
+
+![GitHub](https://img.shields.io/github/license/djps/jwave?style=plastic)
+
+![GitHub](https://img.shields.io/github/license/djps/jaxwell?style=plastic) -->
+
+<!-- [![DOI:10.1007/978-3-319-76207-4_15](https://zenodo.org/badge/DOI/10.1007/978-3-319-76207-4_15.svg)](https://doi.org/10.1007/978-3-319-76207-4_15) -->
+<!-- [![Citation Badge](https://api.juleskreuer.eu/citation-badge.php?doi=10.1126/science.1058040)](https://juleskreuer.eu/projekte/citation-badge/) -->
+
 Python implementation of the FDA axisymmetric KZK HITU simulator, which can be accessed at [here](https://github.com/jsoneson/HITU_Simulator).
 
-
+> **Warning** a work in progress
 
 ## Table of Contents
 
