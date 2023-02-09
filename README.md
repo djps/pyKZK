@@ -3,7 +3,7 @@
 [![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/)
 [![License](https://img.shields.io/badge/license-MIT-blue)](./LICENSE.md)
 ![Status](https://github.com/djps/pykzk/actions/workflows/main.yml/badge.svg)
-![Coverage](https://img.shields.io/endpoint?url=https%3A%2F%2Fgist.github.com%2Fdjps%2F05580cecfa0faf2ba85b2753e7bc4d7e%23file-pykzk-cobertura-coverage-json)
+![Coverage](https://img.shields.io/endpoint?url=https%3A%2F%2Fgist.githubusercontent.com%2Fdjps%2F05580cecfa0faf2ba85b2753e7bc4d7e%2Fraw%2F749efac5ae1e6115f6afb86866ac559ba287f447%2FpyKZK-cobertura-coverage.json)
 
 <!-- ![flake8-info](dist/flake8-badge.svg) -->
 
