@@ -55,6 +55,7 @@ jobs:
           coverage report --omit=/usr/local/lib/* | tee coverage.txt
           coverage xml -o reports/coverage/coverage.xml --omit=/usr/local/lib/*
           genbadge coverage -v --output-file ./coverage-badge-v1.svg
+          echo env.GIST_ID
 #          pwd 
 #          ls
 #          cd ..
@@ -99,10 +100,10 @@ jobs:
  #         github_token: ${{ secrets.GIST_TOKEN }}
  #         branch: ${{ steps.coverage.outputs.branch }}
       
-      - name: Custom Upload badge as artifact
+      - name: Custom upload badge as artifact
         uses: gaelgirodon/ci-badges-action@v1
         with:
-          gist-id: ${{ var.GIST_ID }}
+          gist-id: ${{ env.GIST_ID }}
           token: ${{ secrets.GIST_SECRET }}
 
 
