@@ -22,7 +22,10 @@
 <!-- [![DOI:10.1007/978-3-319-76207-4_15](https://zenodo.org/badge/DOI/10.1007/978-3-319-76207-4_15.svg)](https://doi.org/10.1007/978-3-319-76207-4_15) -->
 <!-- [![Citation Badge](https://api.juleskreuer.eu/citation-badge.php?doi=10.1126/science.1058040)](https://juleskreuer.eu/projekte/citation-badge/) -->
 
-Python implementation of the FDA axisymmetric KZK HITU simulator, which can be accessed at [here](https://github.com/jsoneson/HITU_Simulator).
+Python implementation of the FDA axisymmetric KZK HITU simulator[^1], which can be accessed at [here](https://github.com/jsoneson/HITU_Simulator).
+
+[^1]: J. E. Soneson "[A User‐Friendly Software Package for HIFU Simulation](https://doi.org/10.1063/1.3131405)" _AIP Conf. Proc._ **1113**(1)  pp 165 (2009)
+
 
 > **Warning** a work in progress
 
@@ -38,6 +41,8 @@ Python implementation of the FDA axisymmetric KZK HITU simulator, which can be a
 * [Acknowledgements](#acknowledgements)
 
 ## Getting Started
+
+
 
 ### Dependencies
 
