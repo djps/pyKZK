@@ -1,8 +1,14 @@
 name: Continuous Integration
 
-run-name: pyKZK is testing out GitHub Actions
+run-name: coverage report 
 
-on: [push]
+on:
+  push:
+    branches: [ main ]
+    paths-ignore:
+      - 'README.md'
+      - 'LICENSE'
+      - '.gitignore'
 
 env:
   GIST_ID: 05580cecfa0faf2ba85b2753e7bc4d7e
