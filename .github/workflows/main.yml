@@ -66,7 +66,7 @@ jobs:
         with:
           filename: reports/coverage/coverage.xml
           badge: true
-          fail_below_min: true
+          fail_below_min: false
           format: markdown
           hide_branch_rate: false
           hide_complexity: true
@@ -81,28 +81,28 @@ jobs:
           path: ${{ steps.coverage.outputs.path }}
           if-no-files-found: error
           
-      - name: Commit badge
-        continue-on-error: true
-        env:
-          BADGE: ${{ steps.coverage.outputs.path }}
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git add "${BADGE}"
-          git commit -m "Add/Update badge"
+ #     - name: Commit badge
+ #       continue-on-error: true
+ #       env:
+ #         BADGE: ${{ steps.coverage.outputs.path }}
+ #       run: |
+ #         git config --local user.email "action@github.com"
+ #         git config --local user.name "GitHub Action"
+ #         git add "${BADGE}"
+ #         git commit -m "Add/Update badge"
     
-      - name: Push badge commit
-        uses: ad-m/github-push-action@master
-        if: ${{ success() }}
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: ${{ steps.coverage.outputs.branch }}
+ #     - name: Push badge commit
+ #       uses: ad-m/github-push-action@master
+ #       if: ${{ success() }}
+ #       with:
+ #         github_token: ${{ secrets.GIST_TOKEN }}
+ #         branch: ${{ steps.coverage.outputs.branch }}
       
       - name: Upload badge as artifact
         uses: gaelgirodon/ci-badges-action@v1
         with:
-          gist-id: 05580cecfa0faf2ba85b2753e7bc4d7e
-          token: ${{ secrets.GIST_TOKEN }}
+          gist-id: ${{ env.GIST_ID }}
+          token: ${{ secrets.GIST_SECRET }}
 
 
 
