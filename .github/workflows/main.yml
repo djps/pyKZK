@@ -55,6 +55,9 @@ jobs:
           coverage report --omit=/usr/local/lib/* | tee coverage.txt
           coverage xml -o reports/coverage/coverage.xml --omit=/usr/local/lib/*
           genbadge coverage -v --output-file ./coverage-badge-v1.svg
+        artifacts:
+          paths:
+            - coverage-badge-v1.svg
 #          pwd 
 #          ls
 #          cd ..
