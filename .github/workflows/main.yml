@@ -55,9 +55,6 @@ jobs:
           coverage report --omit=/usr/local/lib/* | tee coverage.txt
           coverage xml -o reports/coverage/coverage.xml --omit=/usr/local/lib/*
           genbadge coverage -v --output-file ./coverage-badge-v1.svg
-        with:
-          name: coverage-badge
-          path: coverage-badge-v1.svg
 #          pwd 
 #          ls
 #          cd ..
@@ -65,6 +62,7 @@ jobs:
 #    coverage: '/^TOTAL.*\s+(\d+\%)$/'
     
       - name: Code Coverage Summary Report (Text & Value)
+        id: summary
         uses: irongut/CodeCoverageSummary@v1.3.0
         with:
           filename: reports/coverage/coverage.xml
@@ -81,7 +79,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: badge
-          path: ${{ steps.coverage.outputs.path }}
+          path: coverage-badge-v1.svg
           if-no-files-found: error
           
  #     - name: Commit badge
