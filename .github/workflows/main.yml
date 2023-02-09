@@ -49,6 +49,7 @@ jobs:
           genbadge tests -v --output-file ./tests-badge.svg
           
       - name: Coverage
+        id: coverage
         run: |
           coverage run --omit=/usr/local/lib/* coverage_runner.py
           coverage report --omit=/usr/local/lib/* | tee coverage.txt
@@ -61,10 +62,47 @@ jobs:
 #    coverage: '/^TOTAL.*\s+(\d+\%)$/'
     
       - name: Code Coverage Summary Report (Text & Value)
-        uses: irongut/CodeCoverageSummary@v1.0.5
+        uses: irongut/CodeCoverageSummary@v1.3.0
         with:
           filename: reports/coverage/coverage.xml
+          badge: true
+          fail_below_min: true
+          format: markdown
+          hide_branch_rate: false
+          hide_complexity: true
+          indicators: true
           output: both
+          thresholds: '60 80'
+          
+      - name: Upload badge as artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: badge
+          path: ${{ steps.coverage.outputs.path }}
+          if-no-files-found: error
+          
+      - name: Commit badge
+        continue-on-error: true
+        env:
+          BADGE: ${{ steps.coverage.outputs.path }}
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add "${BADGE}"
+          git commit -m "Add/Update badge"
+    
+      - name: Push badge commit
+        uses: ad-m/github-push-action@master
+        if: ${{ success() }}
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ steps.coverage.outputs.branch }}
+      
+      - name: Upload badge as artifact
+        uses: gaelgirodon/ci-badges-action@v1
+        with:
+          gist-id: 05580cecfa0faf2ba85b2753e7bc4d7e
+          token: ${{ secrets.GIST_TOKEN }}
 
 
 
