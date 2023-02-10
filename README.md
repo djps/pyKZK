@@ -22,12 +22,15 @@
 <!-- [![DOI:10.1007/978-3-319-76207-4_15](https://zenodo.org/badge/DOI/10.1007/978-3-319-76207-4_15.svg)](https://doi.org/10.1007/978-3-319-76207-4_15) -->
 <!-- [![Citation Badge](https://api.juleskreuer.eu/citation-badge.php?doi=10.1126/science.1058040)](https://juleskreuer.eu/projekte/citation-badge/) -->
 
-Python implementation of the FDA axisymmetric KZK HITU simulator[^1], which can be accessed at [here](https://github.com/jsoneson/HITU_Simulator).
+Python implementation of version 2 of the FDA axisymmetric KZK HITU simulator which can be accessed at [here](https://github.com/jsoneson/HITU_Simulator). Version 1 can be cited via[^1]. 
 
 [^1]: J. E. Soneson "[A User‐Friendly Software Package for HIFU Simulation](https://doi.org/10.1063/1.3131405)" _AIP Conf. Proc._ **1113**(1)  pp 165 (2009)
 
+> **Note**
+> Please see the disclaimer in the documentation regarding the terms and conditions of use, as well as the official FDA disclaimer. 
 
-> **Warning** a work in progress
+> **Warning** 
+> a work in progress
 
 ## Table of Contents
 
@@ -64,8 +67,8 @@ foo@bar:~$ python3 runner.py
 
 ## TODO
 
-- [x] testing
-- [x] actions with coverage, flake8, version
+- [ ] testing
+- [ ] actions with flake8, version
 - [x] requirements.txt
 
 
@@ -106,5 +109,5 @@ Email me
 <!-- ACKNOWLEDGEMENTS -->
 ## Acknowledgements
 
-* [HITU Simulator [FDA]](https://www.fda.gov/about-fda/cdrh-offices/hitu-simulator)
+* [HITU Simulator [FDA]](https://www.fda.gov/medical-devices/science-and-research-medical-devices/catalog-regulatory-science-tools-help-assess-new-medical-devices)
 * [HITU Simulator [github]](https://github.com/jsoneson/HITU_Simulator)
