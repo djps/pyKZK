@@ -22,12 +22,15 @@
 <!-- [![DOI:10.1007/978-3-319-76207-4_15](https://zenodo.org/badge/DOI/10.1007/978-3-319-76207-4_15.svg)](https://doi.org/10.1007/978-3-319-76207-4_15) -->
 <!-- [![Citation Badge](https://api.juleskreuer.eu/citation-badge.php?doi=10.1126/science.1058040)](https://juleskreuer.eu/projekte/citation-badge/) -->
 
-Python implementation of version 2 of the FDA axisymmetric KZK HITU simulator which can be accessed at [here](https://github.com/jsoneson/HITU_Simulator). Version 1 can be cited via[^1]. 
+Python implementation of version 2 of the FDA axisymmetric KZK HITU simulator which can be accessed at [here](https://github.com/jsoneson/HITU_Simulator). 
+
+Version 1 can be cited via[^1]. 
 
 [^1]: J. E. Soneson "[A User‐Friendly Software Package for HIFU Simulation](https://doi.org/10.1063/1.3131405)" _AIP Conf. Proc._ **1113**(1)  pp 165 (2009)
 
 > **Note**
 > Please see the disclaimer in the documentation regarding the terms and conditions of use, as well as the official FDA disclaimer. 
+
 
 > **Warning** 
 > a work in progress
@@ -45,7 +48,11 @@ Python implementation of version 2 of the FDA axisymmetric KZK HITU simulator wh
 
 ## Getting Started
 
+The axisymmertric KZK equation is given by:
 
+$$
+\dfrac{\partial^2 p}{\partial t^2} - c^2 \nabla^2 p + c \dfrac{\partial}{\partial t} \left[ \alpha \left( \omega \right) \ast p\left(\omega\right) \right] = \dfrac{\beta}{\rho c^2} \dfrac{\partial^2 p^2}{\partial t^2}.
+$$
 
 ### Dependencies
 
