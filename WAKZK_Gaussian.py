@@ -73,7 +73,7 @@ class SpecOutClass():
         self.I = I
 
 
-def WAKZK_Gaussian():
+def WAKZK_Gaussian(willPlot = False):
 
     '''
     Implementation of wide-angle parabolic method for axisymmetric HITU beams.
@@ -85,8 +85,6 @@ def WAKZK_Gaussian():
     verbose = False
 
     debug = False
-
-    willPlot = False
 
     tstart = timeit.default_timer()
 

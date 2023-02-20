@@ -1,0 +1,119 @@
+name: Continuous Integration
+
+run-name: coverage report 
+
+on:
+  push:
+    branches: [ main ]
+    paths-ignore:
+      - 'README.md'
+      - 'LICENSE'
+      - '.gitignore'
+
+env:
+  GIST_ID: 05580cecfa0faf2ba85b2753e7bc4d7e
+
+jobs:
+  doc:
+    runs-on: ubuntu-latest
+    if: contains( github.ref, 'main')
+    
+    # Map a step output to a job output
+    outputs:
+      coverage: ${{ steps.coverage.outputs.coverage }}
+      coverage-rounded-display: ${{ steps.coverage.outputs.coverage-rounded-display }}
+      
+    strategy:
+      matrix:
+        python-version: ["3.7", "3.8", "3.9", "3.10"]
+
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+          
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install flake8 pytest
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+      
+      - name: Lint with flake8
+        run: |
+          mkdir reports
+          cd reports
+          mkdir flake8  
+          cd ../
+          pip3 show flake8
+          pip3 show genbadge
+          flake8 --quiet --exit-zero --exclude=v1 --statistics --tee --max-line-length=127 --output-file=./reports/flake8/flake8stats.txt .
+          genbadge flake8 -i ./reports/flake8/flake8stats.txt -v --output-file ./flake8-badge.svg
+          
+      - name: Test with pytest
+        run: |
+          pytest  -v --junitxml=reports/junit/junit.xml test_runner_planar.py
+          genbadge tests -v --output-file ./tests-badge.svg
+          
+      - name: Coverage
+        id: coverage
+        run: |
+          coverage run --omit=/usr/local/lib/* coverage_runner.py
+          coverage report --omit=/usr/local/lib/* | tee coverage.txt
+          coverage xml -o reports/coverage/coverage.xml --omit=/usr/local/lib/*
+          genbadge coverage -v --output-file ./coverage-badge-v1.svg
+          echo env.GIST_ID
+#          pwd 
+#          ls
+#          cd ..
+#          cp v1/coverage-badge-v1.svg .
+#    coverage: '/^TOTAL.*\s+(\d+\%)$/'
+    
+      - name: Code Coverage Summary Report (Text & Value)
+        id: summary
+        uses: irongut/CodeCoverageSummary@v1.3.0
+        with:
+          filename: reports/coverage/coverage.xml
+          badge: true
+          fail_below_min: false
+          format: markdown
+          hide_branch_rate: false
+          hide_complexity: true
+          indicators: true
+          output: both
+          thresholds: '60 80'
+          
+      - name: Upload badge as artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: badge
+          path: coverage-badge-v1.svg
+          if-no-files-found: error
+          
+ #     - name: Commit badge
+ #       continue-on-error: true
+ #       env:
+ #         BADGE: ${{ steps.coverage.outputs.path }}
+ #       run: |
+ #         git config --local user.email "action@github.com"
+ #         git config --local user.name "GitHub Action"
+ #         git add "${BADGE}"
+ #         git commit -m "Add/Update badge"
+    
+ #     - name: Push badge commit
+ #       uses: ad-m/github-push-action@master
+ #       if: ${{ success() }}
+ #       with:
+ #         github_token: ${{ secrets.GIST_TOKEN }}
+ #         branch: ${{ steps.coverage.outputs.branch }}
+      
+      - name: Custom upload badge as artifact
+        uses: gaelgirodon/ci-badges-action@v1
+        with:
+          gist-id: ${{ env.GIST_ID }}
+          token: ${{ secrets.GIST_SECRET }}
+
+
+
