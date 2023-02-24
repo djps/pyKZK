@@ -31,9 +31,8 @@ Version 1 can be cited via[^1].
 > **Note**
 > Please see the disclaimer in the documentation regarding the terms and conditions of use, as well as the official FDA disclaimer. 
 
-
 > **Warning** 
-> a work in progress
+> This is a work in progress
 
 ## Table of Contents
 
@@ -74,6 +73,8 @@ foo@bar:~$ python3 runner.py
 
 ## TODO
 
+- [ ] outputs which can be validated experimentally
+- [ ] input from measurements
 - [ ] testing
 - [ ] actions with flake8, version
 - [x] requirements.txt
