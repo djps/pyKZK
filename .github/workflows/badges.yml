@@ -108,7 +108,7 @@ jobs:
         with:
           auth: ${{ secrets.NEW_GIST_SECRET }}
           gistID: ${{ env.GIST_ID }}
-          filename: python-matrix-badge.svg
+          filename: test.json
           label: Python
           message: 3.10, 3.11 
           color: brightgreen
