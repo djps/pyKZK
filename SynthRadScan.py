@@ -57,7 +57,7 @@ def SynthRadScan(r, p, b, JJ_, verbose=False, nharmonics=5):
             NN = np.ceil(10.0 * (upperlimit - lowerlimit) / dr_min)
             dr = (upperlimit - lowerlimit) / (NN - 1)
             x = np.linspace(lowerlimit, upperlimit, int(NN))
-            q = np.zeros((int(NN),KK), dtype=np.complex)
+            q = np.zeros((int(NN),KK), dtype=complex)
             for kk in np.arange(0, KK, dtype=int):
                 if (debug): print( kk, np.shape(x), np.shape(r), np.shape(p[:,kk]) )
                 q[:,kk] = np.interp(x, r, p[:,kk])
@@ -69,7 +69,7 @@ def SynthRadScan(r, p, b, JJ_, verbose=False, nharmonics=5):
             NN = np.ceil( 10*(upperlimit - lowerlimit) / dr_min)
             dr = (upperlimit - lowerlimit) / (NN - 1)
             x = np.linspace(lowerlimit, upperlimit, int(NN))
-            q = np.zeros((int(NN),KK), dtype=np.complex)
+            q = np.zeros((int(NN),KK), dtype=complex)
             for kk in np.arange(0, KK, dtype=int):
                 q[:,kk]    = np.interp(x, r, p[:,kk])
                 W = weight(x, r[jj], b)
