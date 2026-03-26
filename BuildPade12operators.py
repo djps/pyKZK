@@ -1,7 +1,7 @@
 from scipy.sparse import eye
 import numpy as np
 
-def BuildPade12operators(A,kk,dz,k,JJ):
+def BuildPade12operators(A, kk, dz, k, JJ):
   """
   Builds pade operators at (1,2)-order
   """

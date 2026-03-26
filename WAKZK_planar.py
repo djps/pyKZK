@@ -364,8 +364,10 @@ def WAKZK_planar():
     D2 = diags(np.array([e, -2.0*e, e]), np.array([-1,0,1]), np.array([Grid.JJ, Grid.JJ]) ) / dr / dr
     A = u * ( (ur + Du) * D1 + u * D2)
 
-    # zero flux BC at r=0
-    A[0,1] = 2.0 * A[0,1]
+    # zero flux BC at r=0: in matlab it is
+    # A(1,2) = 2*A(1,2); % zero flux BC at r=0;
+    # 
+    A.data[1, 1] = 2.0 * A.data[1, 1] 
 
     #-------------------------------------------------------------------------------
 
@@ -447,13 +449,13 @@ def WAKZK_planar():
 
             # attenuation/dispersion term and diffraction term:
             for kk in np.arange(0, Grid.KK):
-                p[:,kk] = p[:,kk] * np.exp(-Layer[ii].alpha[kk] * dz)
+                p[:, kk] = p[:,kk] * np.exp(-Layer[ii].alpha[kk] * dz)
                 # for Pade 12
                 if (pade=='2'):
-                    p[:,kk] = spsolve( P1[kk], spsolve( P2[kk], P3[kk].dot(p[:,kk]) ) )
+                    p[:, kk] = spsolve( P1[kk], spsolve( P2[kk], P3[kk].dot(p[:,kk]) ) )
                 # for Pade 11
                 if (pade=='1'):
-                    p[:,kk] = spsolve( P1[kk], P2[kk].dot(p[:,kk]) )
+                    p[:, kk] = spsolve( P1[kk], P2[kk].dot(p[:,kk]) )
 
             # compute norm of solution
             Norm = np.linalg.norm( p[:,0] )
