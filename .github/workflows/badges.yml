@@ -106,9 +106,9 @@ jobs:
 
         uses: schneegans/dynamic-badges-action@v1.6.0
         with:
-          auth: ${{ secrets.GIST_SECRET }}
+          auth: ${{ secrets.NEW_GIST_SECRET }}
           gistID: ${{ env.GIST_ID }}
           filename: python-matrix-badge.svg
           label: Python
-          message: 3.10 & 3.11 passing
+          message: 3.10, 3.11 
           color: brightgreen
