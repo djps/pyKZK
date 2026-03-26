@@ -102,16 +102,15 @@ jobs:
           color: brightgreen
           path: python-matrix-badge.svg
 
-      - name: Upload matrix badge svg to gist
-
-        uses: schneegans/dynamic-badges-action@v1.6.0
-        with:
-          auth: ${{ secrets.NEW_GIST_SECRET }}
-          gistID: ${{ env.GIST_SVG_ID }}
-          filename: python-matrix-badge.svg
-          label: Python
-          message: '3.10, 3.11' 
-          color: brightgreen
+#      - name: Upload matrix badge svg to gist
+#        uses: schneegans/dynamic-badges-action@v1.6.0
+#        with:
+#          auth: ${{ secrets.NEW_GIST_SECRET }}
+#          gistID: ${{ env.GIST_SVG_ID }}
+#          filename: python-matrix-badge.svg
+#          label: Python
+#          message: '3.10, 3.11' 
+#          color: brightgreen
 
       - name: Upload matrix badge json to gist
         uses: schneegans/dynamic-badges-action@v1.6.0
