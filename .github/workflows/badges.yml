@@ -79,14 +79,12 @@ jobs:
     if: ${{ needs.doc.result == 'success' }}
     steps:
       - name: Download badges (3.10)
-
         uses: actions/download-artifact@v4
         with:
           name: badges-py3.10
           path: badges/3.10
 
       - name: Download badges (3.11)
-
         uses: actions/download-artifact@v4
         with:
           name: badges-py3.11
@@ -94,7 +92,6 @@ jobs:
 
       # Create a single CI badge stating both versions are passing
       - name: Create matrix status badge (3.10 & 3.11 passing)
-
         uses: emibcn/badge-action@v2
         with:
           label: Python
@@ -119,5 +116,6 @@ jobs:
           gistID: ${{ env.GIST_JSON_ID }}
           filename: 'test.json'
           label: Python
-          message: 3.10, 3.11 
+          message: '3.10, 3.11' 
           color: brightgreen
+          forceUpdate: true
