@@ -351,7 +351,9 @@ def WAKZK_Gaussian(willPlot = False):
     A = u * ( (ur + Du) * D1 + u * D2)
 
     # zero flux BC at r=0
-    A[0,1] = 2.0 * A[0,1]
+    A = A.tolil()
+    A[0, 1] = 2.0 * A[0, 1] 
+    A = A.todia() 
 
     #-------------------------------------------------------------------------------
 
