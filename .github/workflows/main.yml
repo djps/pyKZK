@@ -14,33 +14,27 @@ run-name: coverage report
 on:
   workflow_dispatch:
 
-jobs:
-  disabled:
-    if: ${{ false }}
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo "Disabled"
-
 env:
   GIST_ID: 05580cecfa0faf2ba85b2753e7bc4d7e
 
 jobs:
-  doc:
+  disabled:
+    if: ${{ false }}
     runs-on: ubuntu-latest
-    if: contains( github.ref, 'main')
-    
-    # Map a step output to a job output
-    outputs:
-      coverage: ${{ steps.coverage.outputs.coverage }}
-      coverage-rounded-display: ${{ steps.coverage.outputs.coverage-rounded-display }}
+
+    #outputs:
+    #  coverage: ${{ steps.coverage.outputs.coverage }}
+    #  coverage-rounded-display: ${{ steps.coverage.outputs.coverage-rounded-display }}
       
     strategy:
       matrix:
         python-version: ["3.10", "3.11"]
-
+    
     steps:
+      - run: echo "Disabled"
+
       - uses: actions/checkout@v3
-      
+  
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v4
         with:
