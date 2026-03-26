@@ -135,7 +135,7 @@ def BuildBHTperipherals(Grid, Layer, Q, dt, verbose, rskip, zskip, Tvec, isFirst
   D = spdiags(D, 0, JN, JN)
   V = spdiags(V, 0, JN, JN)
 
-  dt = np.float6464(dt)
+  dt = np.float64(dt)
 
   I = eye(int(JN), int(JN), dtype=np.float64)
 
@@ -144,7 +144,7 @@ def BuildBHTperipherals(Grid, Layer, Q, dt, verbose, rskip, zskip, Tvec, isFirst
   A = A.T
 
   # Crank-Nicolson operators
-  temp = dt * (D.multiply(A) - V) / np.float6464(2.0)
+  temp = dt * (D.multiply(A) - V) / np.float64(2.0)
   CN1 = I - temp
   CN2 = I + temp
 
@@ -282,7 +282,7 @@ def BuildBHTperipheralsTemperature(Grid, TemperatureLayer, Q, dt, verbose, rskip
   D = spdiags(D, 0, JN, JN)
   V = spdiags(V, 0, JN, JN)
 
-  dt = np.float6464(dt)
+  dt = np.float64(dt)
 
   I = eye(int(JN), int(JN), dtype=np.float64)
 
@@ -291,7 +291,7 @@ def BuildBHTperipheralsTemperature(Grid, TemperatureLayer, Q, dt, verbose, rskip
   A = A.T
 
   # Crank-Nicolson operators
-  temp = dt * (D.multiply(A) - V) / np.float6464(2.0)
+  temp = dt * (D.multiply(A) - V) / np.float64(2.0)
   CN1 = I - temp
   CN2 = I + temp
 
