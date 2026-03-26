@@ -44,7 +44,7 @@ def SynthRadScan(r, p, b, JJ_, verbose=False, nharmonics=5):
     for kk in np.arange(0, KK):
         if debug: print( kk, np.shape(q[:,kk]), np.shape(x), np.shape(r), np.shape( p[:,kk] ), np.shape( interp(x, r, p[:,kk]) ) )
         q[:,kk]   = interp(x, r, p[:,kk])
-        p_h[0,kk] = dr * np.trapz(q[:,kk] * x)
+        p_h[0,kk] = dr * np.trapezoid(q[:,kk] * x)
 
 
     for jj in np.arange(1,int(JJ_), dtype=int):
@@ -61,7 +61,7 @@ def SynthRadScan(r, p, b, JJ_, verbose=False, nharmonics=5):
             for kk in np.arange(0, KK, dtype=int):
                 if (debug): print( kk, np.shape(x), np.shape(r), np.shape(p[:,kk]) )
                 q[:,kk] = interp(x, r, p[:,kk])
-                p_h[jj,kk] = dr * np.trapz( np.conj( np.transpose(q[:,kk]) ) * x )
+                p_h[jj,kk] = dr * np.trapezoid( np.conj( np.transpose(q[:,kk]) ) * x )
 
             # setup for outer crescent
             lowerlimit = b - r[jj]
@@ -73,7 +73,7 @@ def SynthRadScan(r, p, b, JJ_, verbose=False, nharmonics=5):
             for kk in np.arange(0, KK, dtype=int):
                 q[:,kk]    = interp(x, r, p[:,kk])
                 W = weight(x, r[jj], b)
-                p_h[jj,kk] = p_h[jj,kk] + dr * np.trapz( np.conj( np.transpose( q[:,kk] )) * W * x)
+                p_h[jj,kk] = p_h[jj,kk] + dr * np.trapezoid( np.conj( np.transpose( q[:,kk] )) * W * x)
 
         else:
             lowerlimit = r[jj] - b
@@ -87,7 +87,7 @@ def SynthRadScan(r, p, b, JJ_, verbose=False, nharmonics=5):
                 if (debug): print( np.shape(x), np.shape(r), np.shape(p[:,0]), np.shape(q[:,kk]), np.shape(p_h[jj,kk]) )
                 q[:,kk]    = interp(x, r, p[:,kk])
                 W = weight(x, r[jj], b)
-                p_h[jj,kk] = dr * np.trapz( np.conj( np.transpose(q[:,kk] )) * W * x)
+                p_h[jj,kk] = dr * np.trapezoid( np.conj( np.transpose(q[:,kk] )) * W * x)
 
     p_h = 2.0*p_h/b/b
     p5  = np.abs( p_h[:,0:np.min([nharmonics,KK])] )

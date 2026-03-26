@@ -41,7 +41,7 @@ def TDNL(u, U, X, KK, JJ, c, cutoff, Ppos, Pneg, I_td, verbose=False):
                 #U = complex( KK * np.real( np.fft.ifft(U) ), np.zeros((np.size(U),)))
                 U = KK * np.real( np.fft.ifft(U) ) + 0j
                 if (verbose): print( "\t jj: ", jj, "\t1. U[0]: ", type(U[0]), "\t X[0]: ", type(X[0]) )
-                I_td[jj] = np.trapz( np.squeeze( np.abs(U)**2) )
+                I_td[jj] = np.trapezoid( np.squeeze( np.abs(U)**2) )
 
                 # determine how many steps necessary for CFL<1 (CFL<0.9 to be safe).
                 PP = np.ceil(2.0 * c * np.max(np.abs(U)) / 0.9 )
@@ -71,7 +71,7 @@ def TDNL(u, U, X, KK, JJ, c, cutoff, Ppos, Pneg, I_td, verbose=False):
                     U = X
 
                 # account for nonlinear losses:
-                I_td[jj] = I_td[jj] - np.trapz( np.squeeze( np.abs(X) )**2 )
+                I_td[jj] = I_td[jj] - np.trapezoid( np.squeeze( np.abs(X) )**2 )
 
                 # store maximum and minimum
                 Ppos[jj] = np.max( np.abs(X) )

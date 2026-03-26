@@ -257,7 +257,7 @@ def WAKZK_planar():
     if (debug): print("\t shape A: ", np.shape(A) )
 
     # Next scale the source by the appropriate pressure coefficient so that it has the proper total acoustic power
-    integral = 2.0 * np.pi * dr * np.trapz( np.power(np.abs(A), 2) * Grid.r)
+    integral = 2.0 * np.pi * dr * np.trapezoid( np.power(np.abs(A), 2) * Grid.r)
     
     if (debug): print( "\t shape integral : ", np.shape(integral) )
 

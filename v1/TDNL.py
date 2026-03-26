@@ -1,4 +1,4 @@
-def TDNL(u,U,X,K,J,c,cutoff,Ppos,Pneg,I_td):
+np.trapezoiddef TDNL(u,U,X,K,J,c,cutoff,Ppos,Pneg,I_td):
 
   """
   

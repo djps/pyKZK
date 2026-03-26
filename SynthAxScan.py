@@ -39,7 +39,7 @@ def SynthAxScan(r, p, b, JJ_, nt, nharmonics = 5, verbose=False):
   # for each harmonic, interpolate over radius of hydrophone then integrate
   for kk in np.arange(0, KK):
     q[:,kk] = interp(x, r, p[:,kk]) # is this both real and complex???
-    p_h[kk] = dr * np.trapz( q[:,kk] * np.transpose(x) )
+    p_h[kk] = dr * np.trapezoid( q[:,kk] * np.transpose(x) )
 
   if (np.abs(b) > 0.0):
     if (debug): print("b:", b)

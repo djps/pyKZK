@@ -273,7 +273,7 @@ def WAKZK():
     A = SourceFilterH.SourceFilterH(Grid.r, A, Layer[0].k)
 
     # Next scale the source by the appropriate pressure coefficient so that it has the proper total acoustic power
-    integral = 2.0 * np.pi * dr * np.trapz( np.power(np.abs(A), 2) * Grid.r)
+    integral = 2.0 * np.pi * dr * np.trapezoid( np.power(np.abs(A), 2) * Grid.r)
     
     # convert units from cm^2 to m^2
     integral = 1e-4 * integral
