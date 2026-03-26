@@ -11,7 +11,8 @@ on:
       - 'v1'
 
 env:
-  GIST_ID: 05580cecfa0faf2ba85b2753e7bc4d7e
+  GIST_SVG_ID: 05580cecfa0faf2ba85b2753e7bc4d7e
+  GIST_JSON_ID: 4d7cd9fcf942494040e17a88864fbfdf
 
 jobs:
   doc:
