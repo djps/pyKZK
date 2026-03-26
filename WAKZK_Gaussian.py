@@ -286,10 +286,10 @@ def WAKZK_Gaussian(willPlot = False):
 
     ## dependent variable (pressure) matrices -
     # new pressure, i.e. all r values at n+1 th step along z-axis for each computed harmonic
-    p = np.zeros((Grid.JJ, Grid.KK), dtype=np.complex128)
+    p = np.zeros((Grid.JJ, Grid.KK), dtype=complex)
 
     # old pressure, i.e. at n th step
-    q = np.zeros((Grid.JJ, Grid.KK), dtype=np.complex128)
+    q = np.zeros((Grid.JJ, Grid.KK), dtype=complex)
 
     # apply boundary condition (linear source)
     q[:,0] = A
@@ -335,7 +335,7 @@ def WAKZK_Gaussian(willPlot = False):
     Du2 = Du2 * (Grid.r < (Grid.R+th/2.0))
     if (debug): print("shape Du2: ", np.shape(Du2) )
 
-    temp = np.zeros((np.size(Grid.r),), dtype = np.complex128)
+    temp = np.zeros((np.size(Grid.r),), dtype = complex)
     temp[1:] = u[1:] / Grid.r[1:]
 
     ur = diags( temp )
@@ -364,8 +364,8 @@ def WAKZK_Gaussian(willPlot = False):
     p5[0,0]   = np.abs(q[0, 0])
 
     # waveform data vectors -
-    w         = np.zeros((Grid.NN, 2*Grid.KK), dtype=np.complex128)
-    Y         = np.zeros((2*Grid.KK,), dtype=np.complex128)
+    w         = np.zeros((Grid.NN, 2*Grid.KK), dtype=complex)
+    Y         = np.zeros((2*Grid.KK,), dtype=complex)
 
     # change in intensity
     I_td      = np.zeros((Grid.JJ, 2))

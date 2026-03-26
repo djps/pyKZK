@@ -20,7 +20,7 @@ def SynthAxScan(r, p, b, JJ_, nt, nharmonics = 5, verbose=False):
   dr_min = r[1]
 
   # vector of spatially averaged pressure values
-  p_h = np.zeros((KK,), dtype=np.complex )
+  p_h = np.zeros((KK,), dtype=complex )
 
   # number of points over which to spatially average
   nmax = 4
@@ -30,9 +30,9 @@ def SynthAxScan(r, p, b, JJ_, nt, nharmonics = 5, verbose=False):
 
   x  = np.linspace(0.0, b, int(NN) )
   
-  q  = np.zeros((int(NN),int(KK)), dtype=np.complex )
+  q  = np.zeros((int(NN),int(KK)), dtype=complex )
   
-  U  = np.zeros((nt,), dtype=np.complex)
+  U  = np.zeros((nt,), dtype=complex)
 
   if (debug): print( np.shape(x), "\t", np.shape(p[:,0])  )
 

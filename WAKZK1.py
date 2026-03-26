@@ -53,10 +53,10 @@ class TransducerClass():
 class GridClass():
     def __init__(self, Z, KK, R, JJ, NN, r, z):
         self.Z = Z
-        self.KK = np.int(KK)
+        self.KK = int(KK)
         self.R = R
-        self.JJ = np.int(JJ)
-        self.NN = np.int(NN)
+        self.JJ = int(JJ)
+        self.NN = int(NN)
         self.r = r
         self.z = z
 
@@ -86,7 +86,7 @@ def WAKZK():
     if (output):
         tstart = timeit.default_timer()
 
-    minharmonics = np.int(5)
+    minharmonics = int(5)
 
     #----------------------------------------------------------------------------
     ## Transducer 
@@ -124,13 +124,13 @@ def WAKZK():
         SpecOut[ll] = SpecOutClass(1.0, 1.0, 1.0, 1.0, 1.0)
         
     # initialize index
-    ll = np.int(0)
+    ll = int(0)
 
     #----------------------------------------------------------------------------
     ## Layered media 
 
     # number of layers
-    II = np.int(3)
+    II = int(3)
 
     Layer = np.ndarray((II+1,), dtype=object)
 
@@ -196,7 +196,7 @@ def WAKZK():
 
     # max number of harmonics in simulation (use power of 2)
     kpower = 4
-    KK = np.int( np.power(2, kpower) )
+    KK = int( np.power(2, kpower) )
 
     # grid resolution in r-direction (points per wavelength)
     ppw_r   = 15
@@ -236,9 +236,9 @@ def WAKZK():
     NN = np.ceil(ppw_z * (Z - z_start) / lambda0)
 
     # node vectors
-    r = np.transpose( np.linspace(0.0, R, np.int(JJ)) )
+    r = np.transpose( np.linspace(0.0, R, int(JJ)) )
 
-    z = np.linspace(z_start, Z, np.int(NN))
+    z = np.linspace(z_start, Z, int(NN))
 
     # create grid class
     Grid = GridClass(Z, KK, R, JJ, NN, r, z)
@@ -321,10 +321,10 @@ def WAKZK():
     ## dependent variable (pressure) matrices:
     
     # new pressure (n+1 th step)
-    p = np.zeros((Grid.JJ, Grid.KK), dtype = np.complex)
+    p = np.zeros((Grid.JJ, Grid.KK), dtype = complex)
 
     # old pressure (n th step)
-    q = np.zeros((Grid.JJ, Grid.KK), dtype = np.complex)
+    q = np.zeros((Grid.JJ, Grid.KK), dtype = complex)
 
     # apply boundary condition (source)
     q[:,0] = A
@@ -362,7 +362,7 @@ def WAKZK():
     Du2 = Du2 * (Grid.r < (Grid.R+th/2.0));
     if (debug): print("shape Du2: ", np.shape(Du2) )
 
-    temp = np.zeros((np.size(Grid.r),), dtype = np.complex)
+    temp = np.zeros((np.size(Grid.r),), dtype = complex)
     temp[1:] = u[1:] / Grid.r[1:]
     
     ur = diags( temp )
@@ -390,9 +390,9 @@ def WAKZK():
     p5[0,0]   = np.abs(q[0, 0])
 
     # waveform data vectors
-    w         = np.zeros((Grid.NN, 2*Grid.KK), dtype=np.complex)
+    w         = np.zeros((Grid.NN, 2*Grid.KK), dtype=complex)
     #Y         = np.zeros((2*Grid.KK,))
-    Y         = np.zeros((2*Grid.KK,), dtype=np.complex)
+    Y         = np.zeros((2*Grid.KK,), dtype=complex)
 
     # change in intensity
     I_td      = np.zeros((Grid.JJ, 2))
@@ -409,16 +409,16 @@ def WAKZK():
    # find indices of first gridpoint in each Layer. do first, then loop through middle layers, then add another for ghost last layer
     Layer[0].index = 0
     for ii in np.arange(1,II):
-        Layer[ii].index = np.ceil((Layer[ii].z - z_start)/dz) + np.int(1)
+        Layer[ii].index = np.ceil((Layer[ii].z - z_start)/dz) + int(1)
     # do last (dummy)
     Layer[II].index = Grid.NN
 
 
     # integration loop:
-    for ii in np.arange(0, II, dtype=np.int):
+    for ii in np.arange(0, II, dtype=int):
 
         # build operators for Layer ii
-        op = [BuildPade11operators.BuildPade11operators(A, kk, dz, Layer[ii].k, Grid.JJ) for kk in np.arange(0, Grid.KK, dtype=np.int)]
+        op = [BuildPade11operators.BuildPade11operators(A, kk, dz, Layer[ii].k, Grid.JJ) for kk in np.arange(0, Grid.KK, dtype=int)]
         P1, P2 = zip(*op)
 
         # time-like parameter
@@ -428,15 +428,15 @@ def WAKZK():
         cutoff = Layer[ii].alpha[0] * Layer[ii].rho * Layer[ii].c**2 / Layer[ii].beta / Layer[ii].k;
 
         # for each z-index in the layer integrate nonlinear term -
-        for nn in np.arange(Layer[ii].index, Layer[ii+1].index-1, dtype=np.int):
+        for nn in np.arange(Layer[ii].index, Layer[ii+1].index-1, dtype=int):
             p, w[nn+1,:], Ppos[:,nn+1], Pneg[:,nn+1], I_td[:,0] = TDNL.TDNL(q, w[nn+1,:], Y, Grid.KK, Grid.JJ, mu, cutoff, Ppos[:,nn], Pneg[:,nn], I_td[:,0] );
 
         if (debug):
-            kk=np.int(0)
+            kk=int(0)
             print("****", np.shape(P1[kk]), np.shape(P2[kk]), np.shape(p), np.shape(P2[kk] * p[:,kk] ), np.max(P1[kk]), np.max(P2[kk]), "****"  )
 
         # attenuation/dispersion term and diffraction term:
-        for kk in np.arange(0, Grid.KK, dtype=np.int):
+        for kk in np.arange(0, Grid.KK, dtype=int):
             p[:,kk] = p[:,kk] * np.exp(-Layer[ii].alpha[kk] * dz);
             # for Pade 12
             #p(:,kk) = M(kk).P1 \ (M(kk).P2 \ (M(kk).P3*p(:,kk)));
@@ -456,7 +456,7 @@ def WAKZK():
         q = p
         
         # calculate intensity I and power density H
-        for jj in np.arange(0, Grid.JJ, dtype=np.int):
+        for jj in np.arange(0, Grid.JJ, dtype=int):
             I[jj,nn+1] = np.sum( np.power( np.abs(p[jj,:]),2) ) / 2.0 / Layer[ii].rho / Layer[ii].c;
             # check this!
             Q[jj,nn+1] = (np.sum(Layer[ii].fraction * np.real(Layer[ii].alpha) * np.power(np.abs( np.transpose(p[jj,:]) ),2)) + np.sum(I_td[jj,:]) / dz / (2.0*Grid.KK-1) ) / Layer[ii].rho / Layer[ii].c;
@@ -510,7 +510,7 @@ def WAKZK():
     #I = I / 1e4           
     #Ppos = Ppos/ 1e6
     #Pneg = Pneg / 1e6
-    #for jj in np.arange(0, HH, dtype=np.int):
+    #for jj in np.arange(0, HH, dtype=int):
         #SpecOut[ll].p5 = SpecOut[ll].p5 / 1e6
         #SpecOut[ll].w  = SpecOut[ll].w / 1e6
 
@@ -520,7 +520,7 @@ def WAKZK():
     ax = Axes3D(fig)
     r_ones  = np.ones((np.size(SpecOut[1].p5),1) )
     z_zeros = np.zeros((np.size(Grid.z),))    
-    for jj in np.arange(0, HH, dtype=np.int):
+    for jj in np.arange(0, HH, dtype=int):
         ax.plot3D(Grid.z, z_zeros, np.abs(p5[jj,:])/1e6, linewidth=2)
     plt.gca().set_prop_cycle(None)
     for ll in np.arange(0, LL):
@@ -533,7 +533,7 @@ def WAKZK():
     # axial plots of amplitude of first 5 harmonics and intensity
     plt.figure()
     plt.subplot(2,1,1)
-    for jj in np.arange(0, HH, dtype=np.int):
+    for jj in np.arange(0, HH, dtype=int):
         plt.plot(Grid.z, np.abs(p5[jj,:])/1e6, linewidth=2)
     plt.ylabel('|p| (MPa)')
     plt.grid(True)
