@@ -28,7 +28,7 @@ def SynthRadScan(r, p, b, JJ_, verbose=False, nharmonics=5):
         print( type(np.ceil(10*b/dr_min) ) )
 
     # matrix of spatially averaged pressure values
-    p_h = np.zeros( (int(JJ_),int(KK)), dtype=np.complex )
+    p_h = np.zeros( (int(JJ_),int(KK)), dtype=complex )
 
     # number of points over which to spatially average
     NN = np.max( [int(4), int(np.ceil(10*b/dr_min))] )
@@ -37,13 +37,13 @@ def SynthRadScan(r, p, b, JJ_, verbose=False, nharmonics=5):
 
     x = np.linspace(0, b, int(NN) )
 
-    q = np.zeros((int(NN),KK), dtype=np.complex)
+    q = np.zeros((int(NN),KK), dtype=complex)
 
-    U = np.zeros((int(2*KK),), dtype=np.complex)
+    U = np.zeros((int(2*KK),), dtype=complex)
 
     for kk in np.arange(0, KK):
         if debug: print( kk, np.shape(q[:,kk]), np.shape(x), np.shape(r), np.shape( p[:,kk] ), np.shape( interp(x, r, p[:,kk]) ) )
-        q[:,kk]   = interp(x, r, p[:,kk])
+        q[:,kk]   = np.interp(x, r, p[:,kk])
         p_h[0,kk] = dr * np.trapezoid(q[:,kk] * x)
 
 
@@ -60,7 +60,7 @@ def SynthRadScan(r, p, b, JJ_, verbose=False, nharmonics=5):
             q = np.zeros((int(NN),KK), dtype=np.complex)
             for kk in np.arange(0, KK, dtype=int):
                 if (debug): print( kk, np.shape(x), np.shape(r), np.shape(p[:,kk]) )
-                q[:,kk] = interp(x, r, p[:,kk])
+                q[:,kk] = np.interp(x, r, p[:,kk])
                 p_h[jj,kk] = dr * np.trapezoid( np.conj( np.transpose(q[:,kk]) ) * x )
 
             # setup for outer crescent
@@ -71,21 +71,21 @@ def SynthRadScan(r, p, b, JJ_, verbose=False, nharmonics=5):
             x = np.linspace(lowerlimit, upperlimit, int(NN))
             q = np.zeros((int(NN),KK), dtype=np.complex)
             for kk in np.arange(0, KK, dtype=int):
-                q[:,kk]    = interp(x, r, p[:,kk])
+                q[:,kk]    = np.interp(x, r, p[:,kk])
                 W = weight(x, r[jj], b)
                 p_h[jj,kk] = p_h[jj,kk] + dr * np.trapezoid( np.conj( np.transpose( q[:,kk] )) * W * x)
 
         else:
             lowerlimit = r[jj] - b
             upperlimit = r[jj] + b
-            NN = np.ceil(10*(upperlimit-lowerlimit)/dr_min)
-            dr = (upperlimit-lowerlimit)/(NN-1)
+            NN = np.ceil(10*(upperlimit - lowerlimit) / dr_min)
+            dr = (upperlimit - lowerlimit)/(NN-1)
             if (debug): print( upperlimit, lowerlimit, NN, r[jj], b, dr_min)
             x = np.linspace(lowerlimit, upperlimit, int(NN))
-            q = np.zeros((int(NN),KK), dtype=np.complex)
+            q = np.zeros((int(NN), KK), dtype=complex)
             for kk in np.arange(0, KK, dtype=int):
                 if (debug): print( np.shape(x), np.shape(r), np.shape(p[:,0]), np.shape(q[:,kk]), np.shape(p_h[jj,kk]) )
-                q[:,kk]    = interp(x, r, p[:,kk])
+                q[:,kk]    = np.interp(x, r, p[:,kk])
                 W = weight(x, r[jj], b)
                 p_h[jj,kk] = dr * np.trapezoid( np.conj( np.transpose(q[:,kk] )) * W * x)
 
@@ -98,8 +98,8 @@ def SynthRadScan(r, p, b, JJ_, verbose=False, nharmonics=5):
     # determine peak compressional p_c and rarefactional p_r pressure
     if (KK == 1):
         # linear case - do nothing
-        for jj in np.arange(0,JJ_,dtype=int):
-            p_c[jj] = np.abs( p_h[jj,0] )
+        for jj in np.arange(0, JJ_, dtype=int):
+            p_c[jj] = np.abs( p_h[jj, 0] )
         p_r = -p_c
     else:
         # nonlinear case - transform to time domain
@@ -144,11 +144,11 @@ def weight(r, r0, b):
         warnings.filterwarnings('error')
         for i in np.arange(0, np.size(arg) ):
             if (np.size(v,0) != 0):
-                if i in v[0,:]:
+                if i in v[0, :]:
                     x[i] = 0.0
                     print("replaced i", i, "with zero.")
             else:
-                x[i] = np.real( np.arccos( arg[i] )/np.pi )
+                x[i] = np.real( np.arccos( arg[i] ) / np.pi )
                     # try:
                     #     x[i] = np.real( np.arccos( arg[i] )/np.pi )
                     # except Warning as e:
