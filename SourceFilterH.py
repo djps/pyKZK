@@ -1,4 +1,4 @@
-intfrom scipy.special import jv as jv
+from scipy.special import jv as jv
 
 import numpy as np
 
