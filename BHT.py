@@ -242,7 +242,7 @@ def BHT(Grid, Layer, Q):
 
     Dvec += dt * np.power( R, (Tvec+Teq - Tbreakpoint) / tscale)
 
-    TemperatureLayer = np.ndarray((II,), dtype=np.object)
+    TemperatureLayer = np.ndarray((II,), dtype=object)
 
     nvec = np.zeros((II+2,), dtype=int)
     ivec = np.zeros((II+2,), dtype=int)

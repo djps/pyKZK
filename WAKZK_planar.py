@@ -139,7 +139,7 @@ def WAKZK_planar():
     # number of layers
     II = 1
     # add additional dummy layer in here
-    Layer = np.ndarray((II,), dtype=np.object)
+    Layer = np.ndarray((II,), dtype=object)
 
     Layer[0] = LayerClass(0.0, 1482.0, 1000.0, 0.217, 1.0, 2.0, 3.5, 4180.0, 0.6, 0.0, 0)
     
@@ -220,7 +220,7 @@ def WAKZK_planar():
     LL = np.size(z_output)
 
     # create instances of SpecOut class
-    SpecOut = np.ndarray((LL,), dtype=np.object)
+    SpecOut = np.ndarray((LL,), dtype=object)
     for ll in np.arange(0, LL):
         SpecOut[ll] = SpecOutClass(1, 1, 1, 1, 1)
 
