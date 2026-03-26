@@ -1,4 +1,4 @@
-import numpy as np
+intimport numpy as np
 
 def SynthAxScan(r, p, b, JJ_, nt, nharmonics = 5, verbose=False):
   """

@@ -1,4 +1,4 @@
-import numpy as np
+intimport numpy as np
 
 def SynthRadScan(r, p, b, JJ_, verbose=False, nharmonics=5):
     """
