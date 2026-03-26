@@ -1,4 +1,4 @@
-name: badges Continuous Integration 
+name: CI
 run-name: coverage report badges
 
 on:
