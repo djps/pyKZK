@@ -1,5 +1,5 @@
-name: Continuous Integration
-run-name: coverage report
+name: badges Continuous Integration 
+run-name: coverage report badges
 
 on:
   push:
@@ -50,7 +50,7 @@ jobs:
         run: |
           mkdir -p reports/junit
           pytest -v --junitxml=reports/junit/junit-py${{ matrix.python-version }}.xml test_runner_planar.py
-          genbadge tests -v --output-file ./tests-badge-py${{ matrix.python-version }}.svg
+          genbadge tests -v --junitxml=reports/junit/junit-py${{ matrix.python-version }}.xml --output-file ./tests-badge-py${{ matrix.python-version }}.svg
 
       - name: Coverage
 
@@ -60,7 +60,7 @@ jobs:
           coverage run --omit=/usr/local/lib/* coverage_runner.py
           coverage report --omit=/usr/local/lib/* | tee coverage-py${{ matrix.python-version }}.txt
           coverage xml -o reports/coverage/coverage-py${{ matrix.python-version }}.xml --omit=/usr/local/lib/*
-          genbadge coverage -v --output-file ./coverage-badge-py${{ matrix.python-version }}.svg
+          genbadge coverage -v --input-file reports/coverage/coverage-py${{ matrix.python-version }}.xml --output-file ./coverage-badge-py${{ matrix.python-version }}.svg
 
       - name: Upload badges as artifacts (versioned)
 
