@@ -43,14 +43,14 @@ jobs:
         run: |
           mkdir -p reports/flake8
           flake8 --quiet --exit-zero --exclude=v1 --statistics --tee --max-line-length=127 --output-file=./reports/flake8/flake8stats.txt .
-          genbadge flake8 -i ./reports/flake8/flake8stats.txt -v --output-file ./flake8-badge-py${{ matrix.python-version }}.svg
+          genbadge flake8 --input-file ./reports/flake8/flake8stats.txt -v --output-file ./flake8-badge-py${{ matrix.python-version }}.svg
 
       - name: Test with pytest
 
         run: |
           mkdir -p reports/junit
           pytest -v --junitxml=reports/junit/junit-py${{ matrix.python-version }}.xml test_runner_planar.py
-          genbadge tests -v --junitxml=reports/junit/junit-py${{ matrix.python-version }}.xml --output-file ./tests-badge-py${{ matrix.python-version }}.svg
+          genbadge tests -v --input-file reports/junit/junit-py${{ matrix.python-version }}.xml --output-file ./tests-badge-py${{ matrix.python-version }}.svg
 
       - name: Coverage
 
