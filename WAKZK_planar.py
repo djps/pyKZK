@@ -367,8 +367,11 @@ def WAKZK_planar():
     # zero flux BC at r=0: in matlab it is
     # A(1,2) = 2*A(1,2); % zero flux BC at r=0;
     # 
-    A.data[1, 1] = 2.0 * A.data[1, 1] 
+    # A.data[1, 1] = 2.0 * A.data[1, 1] 
 
+    A = A.tolil()
+    A[0, 1] = 2.0 * A[0, 1] 
+    A = A.todia() 
     #-------------------------------------------------------------------------------
 
     # peripherals for nonlinear integrator:
