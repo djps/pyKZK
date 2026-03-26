@@ -57,10 +57,10 @@ class TransducerClass():
 class GridClass():
     def __init__(self, Z, KK, R, JJ, NN, r, z):
         self.Z = Z
-        self.KK = np.int(KK)
+        self.KK = int(KK)
         self.R = R
-        self.JJ = np.int(JJ)
-        self.NN = np.int(NN)
+        self.JJ = int(JJ)
+        self.NN = int(NN)
         self.r = r
         self.z = z
 
@@ -111,7 +111,7 @@ def WAKZK_Gaussian(willPlot = False):
     # number of layers
     II = 2
 
-    Layer = np.ndarray((II,), dtype=np.object)
+    Layer = np.ndarray((II,), dtype=object)
     #                    ( z,  c,      rho,    alpha, fraction, eta, beta, Cp, kappa, w, index)
     Layer[0] = LayerClass(0.0, 1482.0, 1000.0, 0.217, 0.1, 2.0, 3.5, 4180.0, 0.6, 0.0,  0)
     Layer[1] = LayerClass(3.0, 1629.0, 1000.0, 58.0,  0.9, 1.0, 4.5, 4180.0, 0.6, 20.0, 0)
@@ -141,7 +141,7 @@ def WAKZK_Gaussian(willPlot = False):
 
     # max number of harmonics in simulation (use power of 2)
     kpower = 6
-    KK = np.int( np.power(2, kpower) )
+    KK = int( np.power(2, kpower) )
 
     # grid resolution in r-direction (points per wavelength)
     ppw_r   = 15
@@ -176,11 +176,11 @@ def WAKZK_Gaussian(willPlot = False):
     if (verbose): print("\tNN: ", NN)
 
     # node vectors
-    r = np.transpose( np.linspace(0.0, R, np.int(JJ)) )
+    r = np.transpose( np.linspace(0.0, R, int(JJ)) )
 
-    z = np.linspace(z_start, Z, np.int(NN))
+    z = np.linspace(z_start, Z, int(NN))
 
-    Grid = GridClass(Z, np.int(KK), R, np.int(JJ), np.int(NN), r, z)
+    Grid = GridClass(Z, int(KK), R, int(JJ), int(NN), r, z)
 
     dr = Grid.r[1]
 
@@ -198,7 +198,7 @@ def WAKZK_Gaussian(willPlot = False):
     LL = np.size(z_output)
 
     # create instances of SpecOut class
-    SpecOut = np.ndarray((LL,), dtype=np.object)
+    SpecOut = np.ndarray((LL,), dtype=object)
     for ll in np.arange(0, LL):
         SpecOut[ll] = SpecOutClass(1, 1, 1, 1, 1)
 
@@ -286,10 +286,10 @@ def WAKZK_Gaussian(willPlot = False):
 
     ## dependent variable (pressure) matrices -
     # new pressure, i.e. all r values at n+1 th step along z-axis for each computed harmonic
-    p = np.zeros((Grid.JJ, Grid.KK), dtype=np.complex)
+    p = np.zeros((Grid.JJ, Grid.KK), dtype=np.complex128)
 
     # old pressure, i.e. at n th step
-    q = np.zeros((Grid.JJ, Grid.KK), dtype=np.complex)
+    q = np.zeros((Grid.JJ, Grid.KK), dtype=np.complex128)
 
     # apply boundary condition (linear source)
     q[:,0] = A
@@ -307,7 +307,7 @@ def WAKZK_Gaussian(willPlot = False):
     p_c = np.zeros((Grid.NN,))
 
     # recorded data
-    p5 = np.zeros((np.min([Grid.KK, minharmonics]), Grid.NN), dtype=np.complex)
+    p5 = np.zeros((np.min([Grid.KK, minharmonics]), Grid.NN), dtype=complex)
 
     # get pressure values
     if (hd==0):
@@ -335,7 +335,7 @@ def WAKZK_Gaussian(willPlot = False):
     Du2 = Du2 * (Grid.r < (Grid.R+th/2.0))
     if (debug): print("shape Du2: ", np.shape(Du2) )
 
-    temp = np.zeros((np.size(Grid.r),), dtype = np.complex)
+    temp = np.zeros((np.size(Grid.r),), dtype = np.complex128)
     temp[1:] = u[1:] / Grid.r[1:]
 
     ur = diags( temp )
@@ -364,8 +364,8 @@ def WAKZK_Gaussian(willPlot = False):
     p5[0,0]   = np.abs(q[0, 0])
 
     # waveform data vectors -
-    w         = np.zeros((Grid.NN, 2*Grid.KK), dtype=np.complex)
-    Y         = np.zeros((2*Grid.KK,), dtype=np.complex)
+    w         = np.zeros((Grid.NN, 2*Grid.KK), dtype=np.complex128)
+    Y         = np.zeros((2*Grid.KK,), dtype=np.complex128)
 
     # change in intensity
     I_td      = np.zeros((Grid.JJ, 2))
@@ -374,7 +374,7 @@ def WAKZK_Gaussian(willPlot = False):
     dt        = 1.0 / Tx.f / (2.0*Grid.KK - 1)
 
     # in us
-    t         = 1e6 * np.linspace(0.0, 1.0/Tx.f, num=np.int(2*Grid.KK), dtype=np.float64)
+    t         = 1e6 * np.linspace(0.0, 1.0/Tx.f, num=int(2*Grid.KK), dtype=np.float64)
     if (debug): print( "np.shape t: ", np.shape(t) )
 
     # more reporting
@@ -385,12 +385,12 @@ def WAKZK_Gaussian(willPlot = False):
     Layer[0].index = 0
     if (II > 1):
         for ii in np.arange(1,II-1):
-            Layer[ii].index = np.int( np.ceil((Layer[ii].z - z_start)/dz)) + np.int(1)
+            Layer[ii].index = int( np.ceil((Layer[ii].z - z_start)/dz)) + int(1)
         # do last
-        Layer[II-1].index = np.int(Grid.NN)
+        Layer[II-1].index = int(Grid.NN)
 
     if (verbose):
-        for i in np.arange(0,II, dtype=np.int):
+        for i in np.arange(0,II, dtype=int):
             print("Layer.index: ", Layer[i].index )
 
     if (debug):
@@ -404,7 +404,7 @@ def WAKZK_Gaussian(willPlot = False):
     pade = '1'
 
     # integration loop:
-    for ii in np.arange(0, II, dtype=np.int):
+    for ii in np.arange(0, II, dtype=int):
 
         if (pade== '1'):
             op = [BuildPade11operators.BuildPade11operators(A, kk, dz, Layer[ii].k, Grid.JJ) for kk in np.arange(1,Grid.KK+1)]
@@ -420,14 +420,14 @@ def WAKZK_Gaussian(willPlot = False):
 
         # ensure last index is okay
         if (II==1):
-            upper = np.int(NN-1)
+            upper = int(NN-1)
         else:
             if (ii==II-1):
-                upper = np.int(NN-1)
+                upper = int(NN-1)
             else:
-                upper = np.int(Layer[ii+1].index-1)
+                upper = int(Layer[ii+1].index-1)
 
-        for nn in np.arange(Layer[ii].index, upper, dtype=np.int):
+        for nn in np.arange(Layer[ii].index, upper, dtype=int):
 
             # integrate nonlinear term -
             p, w[nn+1,:], Ppos[:,nn+1], Pneg[:,nn+1], I_td[:,0] = TDNL.TDNL(q, w[nn+1,:], Y, Grid.KK, Grid.JJ, mu, cutoff, Ppos[:,nn], Pneg[:,nn], I_td[:,0] )
@@ -472,7 +472,7 @@ def WAKZK_Gaussian(willPlot = False):
 
             if (debug):
                 print( nn, nn+1, p_r[nn+1], p_c[nn+1], np.min( np.real(w[nn+1,:]) ), np.max( np.real(w[nn+1,:]) ) )
-                kk=np.int(0)
+                kk=int(0)
                 print("****", np.shape(P1[kk]), np.shape(P2[kk]), np.shape(p), np.shape(P2[kk] * p[:,kk] ), np.max(P1[kk]), np.max(P2[kk]), "****"  )
 
             if (ll < LL):
@@ -536,11 +536,11 @@ def WAKZK_Gaussian(willPlot = False):
         ax = Axes3D(fig)
         r_ones  = np.ones((MM,) )
         z_zeros = np.zeros((np.size(Grid.z),))
-        for jj in np.arange(0, HH, dtype=np.int):
+        for jj in np.arange(0, HH, dtype=int):
             ax.plot3D(Grid.z, z_zeros, np.abs(p5[jj,:])/1e6, linewidth=2)
         for ll in np.arange(0, LL):
             plt.gca().set_prop_cycle(None)
-            for jj in np.arange(0, HH, dtype=np.int):
+            for jj in np.arange(0, HH, dtype=int):
                 ax.plot3D(z_output[ll]*r_ones, Grid.r[0:np.size(SpecOut[ll].p5[:,jj])], SpecOut[ll].p5[:,jj]/1e6, linewidth=2)
         ax.set_xlabel('z (cm)')
         ax.set_ylabel('r (cm)')
@@ -550,7 +550,7 @@ def WAKZK_Gaussian(willPlot = False):
         # axial plots of amplitude of first 5 harmonics and intensity
         plt.figure()
         plt.subplot(2,1,1)
-        for jj in np.arange(0, HH, dtype=np.int):
+        for jj in np.arange(0, HH, dtype=int):
             plt.plot(Grid.z, np.abs(p5[jj,:])/1e6, linewidth=2)
         plt.ylabel('|p| (MPa)')
         plt.grid(True)
@@ -589,7 +589,7 @@ def WAKZK_Gaussian(willPlot = False):
         for ll in np.arange(0, LL):
             plt.figure()	# radial plots of amplitude of first 5 harmonics and intensity
             plt.subplot(2,1,1)	# at specified axial locations
-            for jj in np.arange(0, HH, dtype=np.int):
+            for jj in np.arange(0, HH, dtype=int):
                 plt.plot(Grid.r[0:np.size(SpecOut[ll].p5[:,jj])], SpecOut[ll].p5[:,jj]/1e6, linewidth=2)
             plt.ylabel('|p| (MPa)')
             plt.title(V[ll])

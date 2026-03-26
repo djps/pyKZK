@@ -18,7 +18,7 @@ def SourceFilterH(x, A, k, verbose=False):
   c = np.zeros((JJplus,))
 
   # iterator jj will run from 0:JJ
-  for jj in np.arange(0, JJplus, dtype=np.int):
+  for jj in np.arange(0, JJplus, dtype=int):
       # first guess based on asymptotic approximation
       y = np.pi * (4.0*np.double(jj) - 1.0) / 4.0
       # Newton iteration

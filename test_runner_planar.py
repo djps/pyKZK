@@ -25,7 +25,7 @@ import WAKZK_planar, WAKZK, WAKZK_Gaussian
 import SourceFilterH, SynthAxScan, SynthRadScan
 
 
-from nose.tools import assert_almost_equals
+from numpy.testing import assert_almost_equal
 
 def test_runner():
 

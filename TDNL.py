@@ -19,7 +19,7 @@ def TDNL(u, U, X, KK, JJ, c, cutoff, Ppos, Pneg, I_td, verbose=False):
     else:
         # nonlinear case - enter loop
         for jj in np.arange(JJ-1, 0):
-        #for jj in np.linspace(JJ-1, 0, num=JJ, dtype=np.int):
+        #for jj in np.linspace(JJ-1, 0, num=JJ, dtype=int):
 
             # execute nonlinear step only if amplitude is above cutoff
             # row jj=1 is always computed so plots look nice
@@ -51,7 +51,7 @@ def TDNL(u, U, X, KK, JJ, c, cutoff, Ppos, Pneg, I_td, verbose=False):
                 for _ in np.arange( 0, PP ):
 
                     # for each frequency component
-                    for kk in np.arange( 0, 2*KK, dtype=np.int ):
+                    for kk in np.arange( 0, 2*KK, dtype=int ):
 
                         if ( np.real( U[kk-1] ) < 0.0 ):
 

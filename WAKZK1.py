@@ -119,7 +119,7 @@ def WAKZK():
     LL = np.size(z_output)
 
     # create instances of SpecOut class
-    SpecOut = np.ndarray((LL,), dtype=np.object)
+    SpecOut = np.ndarray((LL,), dtype=object)
     for ll in np.arange(0, LL):
         SpecOut[ll] = SpecOutClass(1.0, 1.0, 1.0, 1.0, 1.0)
         
@@ -132,7 +132,7 @@ def WAKZK():
     # number of layers
     II = np.int(3)
 
-    Layer = np.ndarray((II+1,), dtype=np.object)
+    Layer = np.ndarray((II+1,), dtype=object)
 
     Layer[0] = LayerClass(0.0, 1482.0, 1000.0, 0.217, 0.0, 2.0, 3.5, 4180.0, 0.6, 0.0)
     Layer[1] = LayerClass(4.0, 1629.0, 1000.0, 58.0,  0.9, 1.0, 4.5, 4180.0, 0.6, 20.0)

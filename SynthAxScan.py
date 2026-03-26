@@ -28,9 +28,9 @@ def SynthAxScan(r, p, b, JJ_, nt, nharmonics = 5, verbose=False):
 
   dr = b / (NN - 1)
 
-  x  = np.linspace(0.0, b, np.int(NN) )
+  x  = np.linspace(0.0, b, int(NN) )
   
-  q  = np.zeros((np.int(NN),np.int(KK)), dtype=np.complex )
+  q  = np.zeros((int(NN),int(KK)), dtype=np.complex )
   
   U  = np.zeros((nt,), dtype=np.complex)
 
@@ -38,7 +38,7 @@ def SynthAxScan(r, p, b, JJ_, nt, nharmonics = 5, verbose=False):
 
   # for each harmonic, interpolate over radius of hydrophone then integrate
   for kk in np.arange(0, KK):
-    q[:,kk] = np.interp(x, r, p[:,kk]) # is this both real and complex???
+    q[:,kk] = interp(x, r, p[:,kk]) # is this both real and complex???
     p_h[kk] = dr * np.trapz( q[:,kk] * np.transpose(x) )
 
   if (np.abs(b) > 0.0):

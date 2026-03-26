@@ -31,7 +31,7 @@ class TemperatureLayerClass():
         Tref = 0.0
         verbose = False
 
-        z_start = np.int(0)
+        z_start = int(0)
 
         # integer at which boundary ends.
         if (zlayer[0] == z_start ):
@@ -41,28 +41,28 @@ class TemperatureLayerClass():
 
         if (zlayer[0] == z_start ):
           #zlayer = zlayer - z_start
-          N0 = np.int( np.round( zlayer[0] / dz ) )
-          N1 = np.int( np.round( (zlayer[1] - zlayer[0] ) / dz ) )
-          offset = np.int( 0 )
+          N0 = int(( np.round( zlayer[0] / dz ) )
+          N1 = int( np.round( (zlayer[1] - zlayer[0] ) / dz ) )
+          offset = int( 0 )
           if (N1+N0 > NN):
-            N1 = np.int(N1-1)
+            N1 = int(N1-1)
             if verbose: print("LAST")
         else:
           #zlayer = zlayer - z_start
-          N0 = np.int( 1 + np.round( zlayer[0] / dz ) )
-          N1 = np.int( np.round( (zlayer[1] - zlayer[0] ) / dz ) )
-          offset = np.int( (N0-1) * JJ )
+          N0 = int( 1 + np.round( zlayer[0] / dz ) )
+          N1 = int( np.round( (zlayer[1] - zlayer[0] ) / dz ) )
+          offset = int( (N0-1) * JJ )
 
         if (N1+N0 >= NN):
-          N1 = np.int(N1-1)
+          N1 = int(N1-1)
           if verbose: print("LAST")
         # if (N1+N0 == NN):
-        #   N0 = np.int(N0-1)
+        #   N0 = int(N0-1)
 
         #if (isFirst):
         if verbose:
           print("(TemperatureLayerClass) N0:", N0, ", N1:", N1, ", np.size(Tvec):", np.size(Tvec),"=", JJ*NN, ", NN(axial):", NN, ", JJ(radial):", JJ, ", zlayer:(", "{:.3f}".format(zlayer[0]), ",", "{:.3f}".format(zlayer[1]), "), N0+N1:", N1+N0 )
-          print("(TemperatureLayerClass) z interval: (", "{:.3f}".format(N0*dz), ",", "{:.3f}".format(N1*dz), "), j interval: (", N0, ",", N1, "), Tvec interval: (",  np.int( (N0-1) * JJ), ",", np.int( (N0+N1) * JJ), "), zlayer: (", "{:.3f}".format(zlayer[0]), ",", "{:.3f}".format(zlayer[1]), ")" )
+          print("(TemperatureLayerClass) z interval: (", "{:.3f}".format(N0*dz), ",", "{:.3f}".format(N1*dz), "), j interval: (", N0, ",", N1, "), Tvec interval: (",  int( (N0-1) * JJ), ",", int( (N0+N1) * JJ), "), zlayer: (", "{:.3f}".format(zlayer[0]), ",", "{:.3f}".format(zlayer[1]), ")" )
 
           print("(TemperatureLayerClass) index interval: (", "{:d}".format(N0), ",", "{:02d}".format(N1+N0), ")" )
 
@@ -78,7 +78,7 @@ class TemperatureLayerClass():
           self.kappa = kappa
           self.w = w
         else:
-          nsize = np.int( (N1+1)*JJ )
+          nsize = int( (N1+1)*JJ )
           self.c = c * np.ones((nsize,))
           self.rho = rho * np.ones((nsize,))
           self.alpha = alpha * np.ones((nsize,))
@@ -89,7 +89,7 @@ class TemperatureLayerClass():
           self.w = w * np.ones((nsize,))
           self.Cp = Cp * np.ones((nsize,))
 
-          for i in np.arange(0, nsize, dtype=np.int):
+          for i in np.arange(0, nsize, dtype=int):
             self.Cp[i] = Cp * (1.0 + (Tvec[i+offset] - Tref) / 600.0)
             self.rho[i] = rho * (1.0 + (Tvec[i+offset] - Tref) / 600.0)
             self.w[i] = w * (1.0 + (Tvec[i+offset] - Tref) / 600.0)
@@ -138,10 +138,10 @@ def BHT(Grid, Layer, Q):
   dtscale = 100.0
   dt      = np.min([dtmin, t_h/dtscale])		# estimate timestep dt
   n       = np.ceil((t_h+t_c)/dt)	# find number of timesteps
-  t       = np.linspace(0.0, t_h+t_c, np.int(n) )
+  t       = np.linspace(0.0, t_h+t_c, int(n) )
   dt      = t[1]			# refined dt
-  T_sp    = np.zeros((np.int(n+1),), dtype=np.float)		# spatial peak temp as a function of time
-  nt      = np.int(n)
+  T_sp    = np.zeros((int(n+1),), dtype=np.float)		# spatial peak temp as a function of time
+  nt      = int(n)
 
   # heat grid is four times as coarse as propagation grid in r
   rskip = 4
@@ -245,15 +245,15 @@ def BHT(Grid, Layer, Q):
 
     TemperatureLayer = np.ndarray((II,), dtype=np.object)
 
-    nvec = np.zeros((II+2,), dtype=np.int)
-    ivec = np.zeros((II+2,), dtype=np.int)
+    nvec = np.zeros((II+2,), dtype=int)
+    ivec = np.zeros((II+2,), dtype=int)
     nvec[-1] = NN
     ivec[-1] = NN
-    for i in np.arange(0, II, dtype=np.int):
+    for i in np.arange(0, II, dtype=int):
       if (i < II-1):
-        nvec[i+1] = np.int( np.round((Layer[i+1].z - Layer[i].z)/dz) )
+        nvec[i+1] = int( np.round((Layer[i+1].z - Layer[i].z)/dz) )
       else:
-        nvec[i+1] = np.int(np.round((Grid2.z[-1] - Layer[i].z)/dz))
+        nvec[i+1] = int(np.round((Grid2.z[-1] - Layer[i].z)/dz))
       ivec = np.cumsum(nvec[:i+1])
       print(i, Layer[i].z, Grid.z[-1], np.size(Layer), II, nvec[i], nvec[i] * dz, np.cumsum(nvec[:i+1]), np.cumsum(nvec[:1+i])*dz )
     ivec = np.append(ivec, NN)
@@ -274,15 +274,15 @@ def BHT(Grid, Layer, Q):
         print("here 2:", dz, zlayer, z[-1]/dz, 1.0/dz)
 
     if ((zlayer[0] == 0) or (Layer[0].z == Grid2.z[0]) ):
-      N0 = np.int( np.round( zlayer[0] / dz ) )
-      N = np.int( np.round( (zlayer[1] - zlayer[0] ) / dz ) )
+      N0 = int( np.round( zlayer[0] / dz ) )
+      N = int( np.round( (zlayer[1] - zlayer[0] ) / dz ) )
     else:
-      N0 = np.int( 1 + np.round( zlayer[0] / dz ) )
-      N = np.int( np.round( (zlayer[1] - zlayer[0] ) / dz ) )
+      N0 = int( 1 + np.round( zlayer[0] / dz ) )
+      N = int( np.round( (zlayer[1] - zlayer[0] ) / dz ) )
     if (N+N0 > NN):
-      N = np.int(N-1)
+      N = int(N-1)
 
-    #N1 = np.int(N0+N)
+    #N1 = int(N0+N)
     i=0
     #print("i: ", i, ",\tzlayer: ", np.round(zlayer,2), ",\tLayer.z: ", np.round(Layer[i].z,2), ",\tN0: ", N0, ",\tN1: ", N1, ",\tz[N0]: ", np.round(z[N0],3), ",\tz[N1]: ", np.round(z[N1],3), ",\tz[end]: ", z[-1] )
     if (II==1):
@@ -292,7 +292,7 @@ def BHT(Grid, Layer, Q):
       TemperatureLayer[0] = TemperatureLayerClass(zlayer, dz, 1482.0, 1000.0, 0.217, 0.0, 2.0, 3.5, 4180.0, 0.6, 0.0, Tvec, NN, JJ, isFirst, Grid2.z[0])
 
     if (II > 1):
-      for i in np.arange(1,II, dtype=np.int):
+      for i in np.arange(1,II, dtype=int):
         if (i == 0):
           if ( np.abs(Layer[i].z - Grid2.z[0]) < 10E-3 ):
             zlayer = np.array((Grid2.z[0], z[-1]+0.01))
@@ -310,12 +310,12 @@ def BHT(Grid, Layer, Q):
           zlayer = np.array(( ivec[i]*dz, ivec[i+1]*dz -dz/2.0 ) )
           print("here d")
 
-        # N0 = np.int( np.round( zlayer[0] / dz ) )
-        # N = np.int( np.round( (zlayer[1] - zlayer[0] ) / dz ) )
+        # N0 = int( np.round( zlayer[0] / dz ) )
+        # N = int( np.round( (zlayer[1] - zlayer[0] ) / dz ) )
         # if (N+N0 > NN):
-        #   N = np.int(N-1)
+        #   N = int(N-1)
 
-        # N1 = np.int(N0+N)
+        # N1 = int(N0+N)
 
         #print(i, np.round(zlayer,2), np.round(Layer[i].z,2), N0, N1, np.round(N0*dz,2), np.round(N1*dz,2), np.round(z[N0],3), np.round(z[N1-1],3) )
         #print("i: ", i, ",\tzlayer: ", np.round(zlayer,2), ",\tLayer.z: ", np.round(Layer[i].z,2), ",\tN0: ", N0, ",\tN1: ", N1, ",\tz[N0]: ", np.round(z[N0],3), ",\tz[N1]: ", np.round(z[N1],3), ",\tz[end]: ", z[-1] )

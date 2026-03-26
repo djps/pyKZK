@@ -28,26 +28,26 @@ def SynthRadScan(r, p, b, JJ_, verbose=False, nharmonics=5):
         print( type(np.ceil(10*b/dr_min) ) )
 
     # matrix of spatially averaged pressure values
-    p_h = np.zeros( (np.int(JJ_),np.int(KK)), dtype=np.complex )
+    p_h = np.zeros( (int(JJ_),int(KK)), dtype=np.complex )
 
     # number of points over which to spatially average
-    NN = np.max( [np.int(4), np.int(np.ceil(10*b/dr_min))] )
+    NN = np.max( [int(4), int(np.ceil(10*b/dr_min))] )
 
     dr = b / (NN - 1)
 
-    x = np.linspace(0, b, np.int(NN) )
+    x = np.linspace(0, b, int(NN) )
 
-    q = np.zeros((np.int(NN),KK), dtype=np.complex)
+    q = np.zeros((int(NN),KK), dtype=np.complex)
 
-    U = np.zeros((np.int(2*KK),), dtype=np.complex)
+    U = np.zeros((int(2*KK),), dtype=np.complex)
 
     for kk in np.arange(0, KK):
-        if debug: print( kk, np.shape(q[:,kk]), np.shape(x), np.shape(r), np.shape( p[:,kk] ), np.shape( np.interp(x, r, p[:,kk]) ) )
-        q[:,kk]   = np.interp(x, r, p[:,kk])
+        if debug: print( kk, np.shape(q[:,kk]), np.shape(x), np.shape(r), np.shape( p[:,kk] ), np.shape( interp(x, r, p[:,kk]) ) )
+        q[:,kk]   = interp(x, r, p[:,kk])
         p_h[0,kk] = dr * np.trapz(q[:,kk] * x)
 
 
-    for jj in np.arange(1,np.int(JJ_), dtype=np.int):
+    for jj in np.arange(1,int(JJ_), dtype=int):
         if (r[jj] < b):
             # if element overlays central axis
 
@@ -56,11 +56,11 @@ def SynthRadScan(r, p, b, JJ_, verbose=False, nharmonics=5):
             upperlimit = b - r[jj]
             NN = np.ceil(10.0 * (upperlimit - lowerlimit) / dr_min)
             dr = (upperlimit - lowerlimit) / (NN - 1)
-            x = np.linspace(lowerlimit, upperlimit, np.int(NN))
-            q = np.zeros((np.int(NN),KK), dtype=np.complex)
-            for kk in np.arange(0, KK, dtype=np.int):
+            x = np.linspace(lowerlimit, upperlimit, int(NN))
+            q = np.zeros((int(NN),KK), dtype=np.complex)
+            for kk in np.arange(0, KK, dtype=int):
                 if (debug): print( kk, np.shape(x), np.shape(r), np.shape(p[:,kk]) )
-                q[:,kk] = np.interp(x, r, p[:,kk])
+                q[:,kk] = interp(x, r, p[:,kk])
                 p_h[jj,kk] = dr * np.trapz( np.conj( np.transpose(q[:,kk]) ) * x )
 
             # setup for outer crescent
@@ -68,10 +68,10 @@ def SynthRadScan(r, p, b, JJ_, verbose=False, nharmonics=5):
             upperlimit = r[jj] + b
             NN = np.ceil( 10*(upperlimit - lowerlimit) / dr_min)
             dr = (upperlimit - lowerlimit) / (NN - 1)
-            x = np.linspace(lowerlimit, upperlimit, np.int(NN))
-            q = np.zeros((np.int(NN),KK), dtype=np.complex)
-            for kk in np.arange(0, KK, dtype=np.int):
-                q[:,kk]    = np.interp(x, r, p[:,kk])
+            x = np.linspace(lowerlimit, upperlimit, int(NN))
+            q = np.zeros((int(NN),KK), dtype=np.complex)
+            for kk in np.arange(0, KK, dtype=int):
+                q[:,kk]    = interp(x, r, p[:,kk])
                 W = weight(x, r[jj], b)
                 p_h[jj,kk] = p_h[jj,kk] + dr * np.trapz( np.conj( np.transpose( q[:,kk] )) * W * x)
 
@@ -81,30 +81,30 @@ def SynthRadScan(r, p, b, JJ_, verbose=False, nharmonics=5):
             NN = np.ceil(10*(upperlimit-lowerlimit)/dr_min)
             dr = (upperlimit-lowerlimit)/(NN-1)
             if (debug): print( upperlimit, lowerlimit, NN, r[jj], b, dr_min)
-            x = np.linspace(lowerlimit, upperlimit, np.int(NN))
-            q = np.zeros((np.int(NN),KK), dtype=np.complex)
-            for kk in np.arange(0, KK, dtype=np.int):
+            x = np.linspace(lowerlimit, upperlimit, int(NN))
+            q = np.zeros((int(NN),KK), dtype=np.complex)
+            for kk in np.arange(0, KK, dtype=int):
                 if (debug): print( np.shape(x), np.shape(r), np.shape(p[:,0]), np.shape(q[:,kk]), np.shape(p_h[jj,kk]) )
-                q[:,kk]    = np.interp(x, r, p[:,kk])
+                q[:,kk]    = interp(x, r, p[:,kk])
                 W = weight(x, r[jj], b)
                 p_h[jj,kk] = dr * np.trapz( np.conj( np.transpose(q[:,kk] )) * W * x)
 
     p_h = 2.0*p_h/b/b
     p5  = np.abs( p_h[:,0:np.min([nharmonics,KK])] )
 
-    p_r = np.zeros((np.int(JJ_),))
-    p_c = np.zeros((np.int(JJ_),))
+    p_r = np.zeros((int(JJ_),))
+    p_c = np.zeros((int(JJ_),))
 
     # determine peak compressional p_c and rarefactional p_r pressure
     if (KK == 1):
         # linear case - do nothing
-        for jj in np.arange(0,JJ_,dtype=np.int):
+        for jj in np.arange(0,JJ_,dtype=int):
             p_c[jj] = np.abs( p_h[jj,0] )
         p_r = -p_c
     else:
         # nonlinear case - transform to time domain
         # in each radial node jj
-        for jj in np.arange(JJ_-1, 0, -1, dtype=np.int):
+        for jj in np.arange(JJ_-1, 0, -1, dtype=int):
             if debug: print( JJ_, JJ_-1, jj, np.shape(U), np.shape( U[1:KK+1] ), np.shape( np.conj( p_h[jj,:] ) ), np.shape( U[2*KK-1:KK+1:-1] ), np.shape(p_h[jj, 0:KK-2]) )
             U[1:KK+1]         = np.conj( p_h[jj,:] )
             U[2*KK-1:KK+1:-1] = p_h[jj, 0:KK-2]

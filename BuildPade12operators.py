@@ -6,7 +6,7 @@ def BuildPade12operators(A,kk,dz,k,JJ):
   Builds pade operators at (1,2)-order
   """
   
-  I = eye(JJ, dtype=np.complex, format='dia')  
+  I = eye(JJ, dtype=complex, format='dia')  
   kkk = k * kk
   
   A = A / kkk / kkk

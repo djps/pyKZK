@@ -9,8 +9,8 @@ class ThermalGridClass():
     def __init__(self, Z, R, JJ, NN, r, z):
         self.Z = Z
         self.R = R
-        self.JJ = np.int(JJ)
-        self.NN = np.int(NN)
+        self.JJ = int(JJ)
+        self.NN = int(NN)
         self.r = r
         self.z = z
 
@@ -18,10 +18,10 @@ class ThermalGridClass():
 class GridClass():
     def __init__(self, Z, KK, R, JJ, NN, r, z):
         self.Z = Z
-        self.KK = np.int(KK)
+        self.KK = int(KK)
         self.R = R
-        self.JJ = np.int(JJ)
-        self.NN = np.int(NN)
+        self.JJ = int(JJ)
+        self.NN = int(NN)
         self.r = r
         self.z = z
 
@@ -47,11 +47,11 @@ def BuildBHTperipherals(Grid, Layer, Q, dt, verbose, rskip, zskip, Tvec, isFirst
 
   JN = JJ * NN
 
-  Grid2 = GridClass(Grid.Z, KK, Grid.R, np.int(JJ), np.int(NN), r, z)
+  Grid2 = GridClass(Grid.Z, KK, Grid.R, int(JJ), int(NN), r, z)
 
   Qvec = np.reshape(Q[0:np.size(r), 0:np.size(z)], JN)
 
-  II = np.int( np.size(Layer) )
+  II = int( np.size(Layer) )
 
   # reporting
   if (verbose):
@@ -77,40 +77,40 @@ def BuildBHTperipherals(Grid, Layer, Q, dt, verbose, rskip, zskip, Tvec, isFirst
   beta_plus  = np.zeros((JN,), dtype=np.float)
   beta_minus = np.zeros((JN,), dtype=np.float)
 
-  for jn in np.arange(0, JN, dtype=np.int):
+  for jn in np.arange(0, JN, dtype=intt):
     if (np.mod(jn+1, NN) == 0):
       alpha_plus[jn] = 0
     if (np.mod(jn+1, NN) == 1):
       alpha_minus[jn] = 0
-    qq = np.int( np.ceil(jn / NN) - 1)
+    qq = int( np.ceil(jn / NN) - 1)
     beta_plus[jn]  = bp[qq]
     beta_minus[jn] = bm[qq]
 
   gamma = np.squeeze( -2.0*(1.0/dr/dr + 1.0/dz/dz)*np.ones( (JN,1), dtype=np.float) )
 
   z_t = np.zeros((II,), dtype=np.float)
-  ii = np.int(0)
+  ii = int(0)
 
   # build diffusivity and perfusion coefficient matrices (describe layers)
-  for ii in np.arange(0, II, dtype=np.int):
+  for ii in np.arange(0, II, dtype=intt):
     z_t[ii] = Layer[ii].z
 
   if (z_t[0] < z[0]):
-    ii = np.int(1)
+    ii = int(1)
   else:
-    ii = np.int(0)
+    ii = int(0)
 
   d = np.zeros( (NN,), dtype=np.float )
   v = np.zeros( (NN,), dtype=np.float )
   c = np.zeros( (NN,), dtype=np.float )
 
   # for each point
-  for nn in np.arange(0, NN, dtype=np.int):
+  for nn in np.arange(0, NN, dtype=intt):
     # fill by layer
     if (np.min( np.abs( z[nn] - z_t ) ) < dz/2.0):
-        ii = np.int(ii+0)
+        ii = int(ii+0)
     else:
-        ii = np.int(ii+0)
+        ii = int(ii+0)
     # now fill properties
     d[nn] = Layer[ii].d
     v[nn] = Layer[ii].v
@@ -137,7 +137,7 @@ def BuildBHTperipherals(Grid, Layer, Q, dt, verbose, rskip, zskip, Tvec, isFirst
 
   dt = np.float(dt)
 
-  I = eye(np.int(JN), np.int(JN), dtype=np.float)
+  I = eye(int(JN), int(JN), dtype=np.float)
 
   temp = np.array([np.squeeze(beta_plus), np.squeeze(alpha_plus), np.squeeze(gamma), np.squeeze(alpha_minus), np.squeeze(beta_minus)], dtype=np.float )
   A = spdiags(temp, [-NN, -1, 0, 1, NN], JN, JN)
@@ -178,12 +178,12 @@ def BuildBHTperipheralsTemperature(Grid, TemperatureLayer, Q, dt, verbose, rskip
 
   JN = JJ * NN
 
-  Grid2 = GridClass(Grid.Z, KK, Grid.R, np.int(JJ), np.int(NN), r, z)
+  Grid2 = GridClass(Grid.Z, KK, Grid.R, int(JJ), int(NN), r, z)
 
   Qvec = np.reshape(Q[0:np.size(r), 0:np.size(z)], JN)
 
-  II = np.int( np.size(TemperatureLayer) )
-  print("np.int( np.size(TemperatureLayer) ):", np.int( np.size(TemperatureLayer) ) )
+  II = int( np.size(TemperatureLayer) )
+  print("int( np.size(TemperatureLayer) ):", int( np.size(TemperatureLayer) ) )
   j = 0
   for i in np.arange(0,II):
     j = j + np.size(TemperatureLayer[i].rho)
@@ -214,28 +214,28 @@ def BuildBHTperipheralsTemperature(Grid, TemperatureLayer, Q, dt, verbose, rskip
   beta_plus  = np.zeros((JN,), dtype=np.float)
   beta_minus = np.zeros((JN,), dtype=np.float)
 
-  for jn in np.arange(0, JN, dtype=np.int):
+  for jn in np.arange(0, JN, dtype=intt):
     if (np.mod(jn+1, NN) == 0):
       alpha_plus[jn] = 0
     if (np.mod(jn+1, NN) == 1):
       alpha_minus[jn] = 0
-    qq = np.int( np.ceil(jn / NN) - 1)
+    qq = int( np.ceil(jn / NN) - 1)
     beta_plus[jn]  = bp[qq]
     beta_minus[jn] = bm[qq]
 
   gamma = np.squeeze( -2.0*(1.0/dr/dr + 1.0/dz/dz)*np.ones( (JN,1), dtype=np.float) )
 
   z_t = np.zeros((II,), dtype=np.float)
-  ii = np.int(0)
+  ii = int(0)
 
   # build diffusivity and perfusion coefficient matrices (describe layers)
-  for ii in np.arange(0, II, dtype=np.int):
+  for ii in np.arange(0, II, dtype=intt):
     z_t[ii] = TemperatureLayer[ii].zlayer[1]
 
   D = TemperatureLayer[0].d
   V = TemperatureLayer[0].v
   C = TemperatureLayer[0].coef
-  for j in np.arange(1, II, dtype=np.int):
+  for j in np.arange(1, II, dtype=intt):
     D = np.hstack((D, TemperatureLayer[j].d) )
     V = np.hstack((V, TemperatureLayer[j].v) )
     C = np.hstack((C, TemperatureLayer[j].coef) )
@@ -247,23 +247,23 @@ def BuildBHTperipheralsTemperature(Grid, TemperatureLayer, Q, dt, verbose, rskip
 
   # # set counter ii for starting layer
   # if (z_t[0] < z[0]):
-  #   ii = np.int(1)
+  #   ii = int(1)
   # else:
-  #   ii = np.int(0)
+  #   ii = int(0)
   # offset = 0
-  # j = np.int(0)
+  # j = int(0)
 
   # # for each point
-  # for nn in np.arange(0, NN, dtype=np.int):
+  # for nn in np.arange(0, NN, dtype=intt):
   #   # fill by layer
   #   if (np.min( np.abs( z[nn] - z_t ) ) < dz/2.0):
-  #     ii = np.int(ii)
+  #     ii = int(ii)
   #     print("new layer")
   #     if (ii > 0):
   #       offset = offset + np.size( TemperatureLayer[ii-1].d )
   #     print("offset is:", offset)
-  #     j = np.int(0)
-  #   j = np.int(j + 1)
+  #     j = int(0)
+  #   j = int(j + 1)
   #   d[nn] = TemperatureLayer[ii].d[ offset + j]
   #   v[nn] = TemperatureLayer[ii].v[ offset + j]
   #   c[nn] = TemperatureLayer[ii].coef[ offset + j]
@@ -284,7 +284,7 @@ def BuildBHTperipheralsTemperature(Grid, TemperatureLayer, Q, dt, verbose, rskip
 
   dt = np.float(dt)
 
-  I = eye(np.int(JN), np.int(JN), dtype=np.float)
+  I = eye(int(JN), int(JN), dtype=np.float)
 
   temp = np.array([np.squeeze(beta_plus), np.squeeze(alpha_plus), np.squeeze(gamma), np.squeeze(alpha_minus), np.squeeze(beta_minus)], dtype=np.float )
   A = spdiags(temp, [-NN, -1, 0, 1, NN], JN, JN)
