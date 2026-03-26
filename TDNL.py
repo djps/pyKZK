@@ -1,4 +1,4 @@
-intimport numpy as np
+import numpy as np
 import warnings
 from numpy.fft import fft, ifft
 

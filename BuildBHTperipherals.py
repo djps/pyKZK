@@ -1,4 +1,4 @@
-intimport numpy as np
+import numpy as np
 from scipy.sparse.linalg import spsolve, factorized, splu
 from scipy.sparse import spdiags, eye
 
