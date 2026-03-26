@@ -67,15 +67,15 @@ def BuildBHTperipherals(Grid, Layer, Q, dt, verbose, rskip, zskip, Tvec, isFirst
     Layer[ii].coef = 1e2 / Layer[ii].Cp / Layer[ii].rho # units K cm s^2/kg
 
   # build matrix operator's vector "bands"
-  alpha_plus  = np.ones((JN,), dtype=np.float)/dz/dz
-  alpha_minus = np.ones((JN,), dtype=np.float)/dz/dz
-  bp = np.zeros((JJ,), dtype=np.float)
-  bm = np.zeros((JJ,), dtype=np.float)
+  alpha_plus  = np.ones((JN,), dtype=np.float64)/dz/dz
+  alpha_minus = np.ones((JN,), dtype=np.float64)/dz/dz
+  bp = np.zeros((JJ,), dtype=np.float64)
+  bm = np.zeros((JJ,), dtype=np.float64)
   bp[0] = 2.0 / dr / dr
   bp[1:JJ] = (1.0/dr + 0.5 / Grid2.r[1:JJ]) / dr
   bm[1:JJ] = (1.0/dr - 0.5 / Grid2.r[1:JJ]) / dr
-  beta_plus  = np.zeros((JN,), dtype=np.float)
-  beta_minus = np.zeros((JN,), dtype=np.float)
+  beta_plus  = np.zeros((JN,), dtype=np.float64)
+  beta_minus = np.zeros((JN,), dtype=np.float64)
 
   for jn in np.arange(0, JN, dtype=intt):
     if (np.mod(jn+1, NN) == 0):
@@ -86,9 +86,9 @@ def BuildBHTperipherals(Grid, Layer, Q, dt, verbose, rskip, zskip, Tvec, isFirst
     beta_plus[jn]  = bp[qq]
     beta_minus[jn] = bm[qq]
 
-  gamma = np.squeeze( -2.0*(1.0/dr/dr + 1.0/dz/dz)*np.ones( (JN,1), dtype=np.float) )
+  gamma = np.squeeze( -2.0*(1.0/dr/dr + 1.0/dz/dz)*np.ones( (JN,1), dtype=np.float64) )
 
-  z_t = np.zeros((II,), dtype=np.float)
+  z_t = np.zeros((II,), dtype=np.float64)
   ii = int(0)
 
   # build diffusivity and perfusion coefficient matrices (describe layers)
@@ -100,9 +100,9 @@ def BuildBHTperipherals(Grid, Layer, Q, dt, verbose, rskip, zskip, Tvec, isFirst
   else:
     ii = int(0)
 
-  d = np.zeros( (NN,), dtype=np.float )
-  v = np.zeros( (NN,), dtype=np.float )
-  c = np.zeros( (NN,), dtype=np.float )
+  d = np.zeros( (NN,), dtype=np.float64 )
+  v = np.zeros( (NN,), dtype=np.float64 )
+  c = np.zeros( (NN,), dtype=np.float64 )
 
   # for each point
   for nn in np.arange(0, NN, dtype=intt):
@@ -135,16 +135,16 @@ def BuildBHTperipherals(Grid, Layer, Q, dt, verbose, rskip, zskip, Tvec, isFirst
   D = spdiags(D, 0, JN, JN)
   V = spdiags(V, 0, JN, JN)
 
-  dt = np.float(dt)
+  dt = np.float6464(dt)
 
-  I = eye(int(JN), int(JN), dtype=np.float)
+  I = eye(int(JN), int(JN), dtype=np.float64)
 
-  temp = np.array([np.squeeze(beta_plus), np.squeeze(alpha_plus), np.squeeze(gamma), np.squeeze(alpha_minus), np.squeeze(beta_minus)], dtype=np.float )
+  temp = np.array([np.squeeze(beta_plus), np.squeeze(alpha_plus), np.squeeze(gamma), np.squeeze(alpha_minus), np.squeeze(beta_minus)], dtype=np.float64 )
   A = spdiags(temp, [-NN, -1, 0, 1, NN], JN, JN)
   A = A.T
 
   # Crank-Nicolson operators
-  temp = dt * (D.multiply(A) - V) / np.float(2.0)
+  temp = dt * (D.multiply(A) - V) / np.float6464(2.0)
   CN1 = I - temp
   CN2 = I + temp
 
@@ -152,7 +152,7 @@ def BuildBHTperipherals(Grid, Layer, Q, dt, verbose, rskip, zskip, Tvec, isFirst
   Hvec = C * Qvec
 
   Hvec = dt * Hvec
-  Hvec = Hvec.astype(np.float, copy=False)
+  Hvec = Hvec.astype(np.float64, copy=False)
 
   return CN1, CN2, Hvec, Grid2
 
@@ -204,15 +204,15 @@ def BuildBHTperipheralsTemperature(Grid, TemperatureLayer, Q, dt, verbose, rskip
     TemperatureLayer[ii].coef = 1e2 / TemperatureLayer[ii].Cp / TemperatureLayer[ii].rho # units K cm s^2/kg
 
   # build matrix operator's vector "bands"
-  alpha_plus  = np.ones((JN,), dtype=np.float)/dz/dz
-  alpha_minus = np.ones((JN,), dtype=np.float)/dz/dz
-  bp = np.zeros((JJ,), dtype=np.float)
-  bm = np.zeros((JJ,), dtype=np.float)
+  alpha_plus  = np.ones((JN,), dtype=np.float64)/dz/dz
+  alpha_minus = np.ones((JN,), dtype=np.float64)/dz/dz
+  bp = np.zeros((JJ,), dtype=np.float64)
+  bm = np.zeros((JJ,), dtype=np.float64)
   bp[0] = 2.0 / dr / dr
   bp[1:JJ+1] = (1.0/dr + 0.5 / Grid2.r[1:JJ+1]) / dr
   bm[1:JJ+1] = (1.0/dr - 0.5 / Grid2.r[1:JJ+1]) / dr
-  beta_plus  = np.zeros((JN,), dtype=np.float)
-  beta_minus = np.zeros((JN,), dtype=np.float)
+  beta_plus  = np.zeros((JN,), dtype=np.float64)
+  beta_minus = np.zeros((JN,), dtype=np.float64)
 
   for jn in np.arange(0, JN, dtype=intt):
     if (np.mod(jn+1, NN) == 0):
@@ -223,9 +223,9 @@ def BuildBHTperipheralsTemperature(Grid, TemperatureLayer, Q, dt, verbose, rskip
     beta_plus[jn]  = bp[qq]
     beta_minus[jn] = bm[qq]
 
-  gamma = np.squeeze( -2.0*(1.0/dr/dr + 1.0/dz/dz)*np.ones( (JN,1), dtype=np.float) )
+  gamma = np.squeeze( -2.0*(1.0/dr/dr + 1.0/dz/dz)*np.ones( (JN,1), dtype=np.float64) )
 
-  z_t = np.zeros((II,), dtype=np.float)
+  z_t = np.zeros((II,), dtype=np.float64)
   ii = int(0)
 
   # build diffusivity and perfusion coefficient matrices (describe layers)
@@ -282,16 +282,16 @@ def BuildBHTperipheralsTemperature(Grid, TemperatureLayer, Q, dt, verbose, rskip
   D = spdiags(D, 0, JN, JN)
   V = spdiags(V, 0, JN, JN)
 
-  dt = np.float(dt)
+  dt = np.float6464(dt)
 
-  I = eye(int(JN), int(JN), dtype=np.float)
+  I = eye(int(JN), int(JN), dtype=np.float64)
 
-  temp = np.array([np.squeeze(beta_plus), np.squeeze(alpha_plus), np.squeeze(gamma), np.squeeze(alpha_minus), np.squeeze(beta_minus)], dtype=np.float )
+  temp = np.array([np.squeeze(beta_plus), np.squeeze(alpha_plus), np.squeeze(gamma), np.squeeze(alpha_minus), np.squeeze(beta_minus)], dtype=np.float64 )
   A = spdiags(temp, [-NN, -1, 0, 1, NN], JN, JN)
   A = A.T
 
   # Crank-Nicolson operators
-  temp = dt * (D.multiply(A) - V) / np.float(2.0)
+  temp = dt * (D.multiply(A) - V) / np.float6464(2.0)
   CN1 = I - temp
   CN2 = I + temp
 
@@ -300,6 +300,6 @@ def BuildBHTperipheralsTemperature(Grid, TemperatureLayer, Q, dt, verbose, rskip
   Hvec = C * Qvec
 
   Hvec = dt * Hvec
-  Hvec = Hvec.astype(np.float, copy=False)
+  Hvec = Hvec.astype(np.float64, copy=False)
 
   return CN1, CN2, Hvec, Grid2

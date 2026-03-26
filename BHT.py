@@ -139,7 +139,7 @@ def BHT(Grid, Layer, Q):
   n       = np.ceil((t_h+t_c)/dt)	# find number of timesteps
   t       = np.linspace(0.0, t_h+t_c, int(n) )
   dt      = t[1]			# refined dt
-  T_sp    = np.zeros((int(n+1),), dtype=np.float)		# spatial peak temp as a function of time
+  T_sp    = np.zeros((int(n+1),), dtype=np.float64)		# spatial peak temp as a function of time
   nt      = int(n)
 
   # heat grid is four times as coarse as propagation grid in r
@@ -167,14 +167,14 @@ def BHT(Grid, Layer, Q):
     print('\t\tTemporal\t%d' %nt)
 
   # Temp values (overwritten at each timestep
-  Tvec     = np.zeros((JN,), dtype=np.float)
+  Tvec     = np.zeros((JN,), dtype=np.float64)
 
   # Max temp at each spatial location
-  Tvec_max = np.zeros((JN,), dtype=np.float)
+  Tvec_max = np.zeros((JN,), dtype=np.float64)
 
   # Dose values
-  Dvec     = np.zeros((JN,), dtype=np.float)
-  Dmat     = np.zeros((JJ, NN), dtype=np.float)
+  Dvec     = np.zeros((JN,), dtype=np.float64)
+  Dmat     = np.zeros((JJ, NN), dtype=np.float64)
 
   II = np.size(Layer)
 
@@ -236,9 +236,9 @@ def BHT(Grid, Layer, Q):
 
     # accrue thermal dose
     if (Teq + Tvec.all() > Tbreakpoint):
-      R = np.ones((JN,), dtype=np.float) / 2.0
+      R = np.ones((JN,), dtype=np.float64) / 2.0
     else:
-      R = np.ones((JN,), dtype=np.float) / 4.0
+      R = np.ones((JN,), dtype=np.float64) / 4.0
 
     Dvec += dt * np.power( R, (Tvec+Teq - Tbreakpoint) / tscale)
 

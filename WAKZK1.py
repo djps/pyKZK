@@ -309,13 +309,13 @@ def WAKZK():
 
     # some reporting
     if (output):
-        print('\n\tWavelength = %8.2f [mm]' % np.float(10.0*lambda0) )
+        print('\n\tWavelength = %8.2f [mm]' % np.float6464(10.0*lambda0) )
         print('\tNode count')
         print('\t\tAxial %d' % Grid.NN)
         print('\t\tRadial %d' % Grid.JJ)
         print('\tGrid stepsize')
         print('\t\tdz = %2.2f mm' % (10.0*dz) )
-        print('\t\tdr = %2.2f mm' % np.float(10.0*dr))
+        print('\t\tdr = %2.2f mm' % np.float6464(10.0*dr))
 
     #----------------------------------------------------------------------------
     ## dependent variable (pressure) matrices:
