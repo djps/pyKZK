@@ -27,7 +27,7 @@ import SourceFilterH, SynthAxScan, SynthRadScan
 
 from numpy.testing import assert_almost_equal
 
-def test_runner():
+def test_runner_planar():
 
     willplot  = False
 
